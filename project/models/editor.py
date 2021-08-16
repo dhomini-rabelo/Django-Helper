@@ -13,11 +13,27 @@ class Editor(DjangoBase):
         self.reading = self.read(self.path)
         
     def replace_code(self, current: str, new: str):
-        pos = self.reading.index(current) # position
-        self.reading[pos] = f'{new}\n'
-        self.reading.remove(current)
+        for line in self.reading:
+            if line.startswith(current):
+                pos = self.reading.index(line) # position
+                self.reading[pos] = f'{new}\n'
+                break
         
-    def insert_code(self, line:int, new: str):
+    def get_line(self, code_line: str):
+        for line in self.reading:
+            if line.startswith(code_line):
+                pos = self.reading.index(line) # position
+                return pos
+        return None
+    
+    def add_in_line(self, line_code:str, new: str):
+        number_line = self.get_line(line_code)
+        if number_line:
+            current_line = self.reading[number_line][:-2]
+            self.reading[number_line] = f'{current_line}{new}\n'
+        
+        
+    def insert_code(self, line: int, new: str):
         self.reading.insert(line, f'{new}\n')
         
     def insert_comment(self, line:int, comment: str):

@@ -11,13 +11,19 @@ class DjangoBase:
         return path.replace(backslash, '/')
     
     @staticmethod
-    def adapt_name(archive_name: str):
+    def adapt_pyname(archive_name: str):
         if archive_name.endswith('.py'):
             return archive_name
         return f'{archive_name}.py'
     
+    @staticmethod
+    def adapt_htmlname(archive_name: str):
+        if archive_name.endswith('.html'):
+            return archive_name
+        return f'{archive_name}.html'
+    
     def read(self, archive: str):
-        path = f'{self.adapt_name(archive)}.py'
+        path = f'{self.adapt_pyname(archive)}'
         assert_file_existence(path)
         with io.open(path, mode='r', encoding='utf-8') as code_file:
             code = code_file.readlines()

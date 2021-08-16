@@ -1,1 +1,2 @@
-print('-\t-')
+test = 'abacate'
+print(test[:-3])
