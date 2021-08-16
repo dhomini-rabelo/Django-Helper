@@ -13,19 +13,27 @@ def response(msg: str, wait=0, entity='Feedback'):
     sleep(wait)
     print(f'{entity} > [ {msg.lower()} ]')
     
-    
-def assert_path_existence(path: str):
-    if not Path(path).exists():
-        raise FileNotFoundError(f'A pasta "{path}" não foi encontrada')
+
     
     
 class PathIsAFolderError(Exception):
     pass
+
+class PathIsAFileError(Exception):
+    pass
     
     
-def assert_if_file(path: str):
-    if not Path(path).is_file():
+def assert_file_existence(path: str):
+    if not Path(path).exists():
+        raise FileNotFoundError(f'O caminho "{path}" não foi encontrado')
+    elif not Path(path).is_file():
         raise PathIsAFolderError(f'"{path}" é o caminho de uma pasta, nesta feature precisamos de um arquivo')
+
+def assert_folder_existence(path: str):
+    if not Path(path).exists():
+        raise FileNotFoundError(f'O caminho "{path}" não foi encontrado')
+    elif Path(path).is_file():
+        raise PathIsAFileError(f'"{path}" é o caminho de um arquivo, nesta feature precisamos de uma pasta')
     
 
 def check_null(obj):

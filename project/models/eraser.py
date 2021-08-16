@@ -4,19 +4,20 @@ from time import sleep
 from support import *
 import io
 
+
 class Eraser:
-    def __init__(self, path):
-        self.path = path
+    def __init__(self, archive_path):
+        self.path = archive_path
         assert_path_existence(self.path)
-        assert_if_file(self.path)
+        assert_is_file(self.path)
         
-    def _read(self):
+    def read(self):
         with io.open(self.path, mode='r', encoding='utf-8') as code_file:
             code = code_file.readlines()
             return code
         
     def one_line(self):
-        reading = self._read()
+        reading = self.read()
         dels = []
         for line in reading:
             if check_null(line) and line.strip()[0] == '#':
@@ -26,7 +27,7 @@ class Eraser:
         return reading
     
     def initial_lines(self):
-        reading = self._read()
+        reading = self.read()
         if check_null(reading) and (reading[0][:3] == '"""'):
             for index_, line in enumerate(reading[1:]):
                 if '"""' in line:
@@ -45,8 +46,7 @@ class Eraser:
                 code_file.write(line)
             
 
-
-def delete_comments(path: str):
+def delete_comments_by_arquive(path: str):
     rubber = Eraser(path)
     reader1 = rubber.one_line()
     rubber.construct(reader1)
@@ -61,7 +61,7 @@ def delete_comments_by_folder(base_path: str, folder_name: str):
         for item in wp.iterdir():
             if item.suffix == '.py':
                 response(f'Apagando comentários {item.name}')
-                delete_comments(item)
+                delete_comments_by_arquive(item)
 
         
         
