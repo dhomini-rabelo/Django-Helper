@@ -1,8 +1,8 @@
-from support import *
+from .support import *
 import io
 
 
-class Django:
+class DjangoBase:
     
     
     @staticmethod
@@ -17,7 +17,7 @@ class Django:
         return f'{archive_name}.py'
     
     def read(self, archive: str):
-        path = f'{self.path}/{self.adapt_name(archive)}.py'
+        path = f'{self.adapt_name(archive)}.py'
         assert_file_existence(path)
         with io.open(path, mode='r', encoding='utf-8') as code_file:
             code = code_file.readlines()

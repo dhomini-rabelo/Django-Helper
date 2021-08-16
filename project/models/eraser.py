@@ -1,20 +1,19 @@
-from main import base_path as bp
 from pathlib import Path
 from time import sleep
-from support import *
+from .django_class import DjangoBase
+from .support import *
 import io
 
 
-class Eraser:
-    def __init__(self, archive_path):
-        self.path = archive_path
-        assert_path_existence(self.path)
-        assert_is_file(self.path)
+class Eraser(DjangoBase):
+    def __init__(self, base_path: str, archive_path: str):
+        self.base_path = self.adapt_path(base_path)
+        self.archive_path = self.adapt_path(archive_path)
+        self.path = f'{self.base_path}/{self.archive_path}'
+        assert_file_existence(self.path)
         
     def read(self):
-        with io.open(self.path, mode='r', encoding='utf-8') as code_file:
-            code = code_file.readlines()
-            return code
+        return super.read(self.path)
         
     def one_line(self):
         reading = self.read()
@@ -65,5 +64,4 @@ def delete_comments_by_folder(base_path: str, folder_name: str):
 
         
         
-delete_comments_by_folder(bp, 'conta')
     

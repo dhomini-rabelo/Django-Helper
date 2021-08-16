@@ -1,2 +1,2 @@
-rc = '\*' # especific raw case
-base_path = r'C:\Users\G-fire\OneDrive\Documentos\Django\Funcionarios\project'.replace(rc[0], '/')
+rc = '\*' # especifico raw case
+base_path = r'C:\Users\G-fire\OneDrive\Documentos\GITHUB\UTILS\Django-Helper\project'.replace(rc[0], '/')

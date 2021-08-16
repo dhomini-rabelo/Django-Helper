@@ -1,19 +1,21 @@
 from main import base_path as bp
-from models.create_template_folder import *
-from models.create_test_folder import *
-from models.create_url_archive import *
-from models.eraser import *
+from models.app import DjangoApp
 
-app_name = 'app_name'
+app_name = 'test'
 
-delete_comments_by_folder(bp, app_name)
+app = DjangoApp(bp, app_name)
 
-create_template_folder(bp, app_name)
+#* Após criação
+app.create_url_archive()
+app.create_forms_archive()
+app.create_templates_folder()
+app.create_tests_folder()
 
+#* Criando testes
 tests = ['models', 'views', 'forms']
-create_foder_tests(bp, app_name)
 for test in tests:
-    sleep(0.3)
-    create_test(bp, app_name, test)
+    app.create_test_archive(test)
 
-create_url_archive(bp, app_name)
+#* Ocasionalmente
+# app.create_template('index', 'base')
+# app.create_form(model_name='Test')
