@@ -1,6 +1,7 @@
+from .django_class import DjangoBase
+from .editor import Editor
 from pathlib import Path
 from .support import *
-from .django_class import DjangoBase
 import io
 
 
@@ -71,9 +72,12 @@ class DjangoApp(DjangoBase):
             response(f'criando form para {model_name}')
             
     def import_for_model(self):
+        editor = Editor(self.path, 'models.py')
         current_import = 'from django.db import models'
         new_import = 'from django.db.models import (Model, CharField, DateTimeField, TextField, EmailField, ForeignKey, PositiveIntegerField, ImageField, DO_NOTHING, DecimalField, DateField, BooleanField)'
-        return (current_import, new_import)
+        nr = editor.replace_code(current_import, new_import) # new_reading
+        editor.update(nr)
+        response(f'import do model foi editado')
 
 
 
