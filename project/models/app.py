@@ -53,7 +53,7 @@ class DjangoApp(DjangoBase):
     def create_url_archive(self):
         with io.open(f'{self.path}/urls.py', 'w', encoding='utf-8') as arc:
             arc.write('from django.urls import path\nfrom .views import *\n')
-            arc.write('urlpatterns = [\n\n]')
+            arc.write('\nurlpatterns = [\n\n]\n')
             response(f'arquivo urls.py criado no app {self.app}')
     
     def create_forms_archive(self):
@@ -66,9 +66,9 @@ class DjangoApp(DjangoBase):
         path = f'{self.path}/forms.py'
         assert_file_existence(path)
         with io.open(path, 'a', encoding='utf-8') as arc:
-            arc.write(f'\n\nclass Form{model_name}(ModelForm):\n')
-            arc.write(f"    class Meta:\n      fields='__all__'\n")
-            arc.write(f"        model = {model_name}\n")
+            arc.write(f'\n\nclass {model_name}Form(ModelForm):\n')
+            arc.write(f"    class Meta:\n      fields = '__all__'\n")
+            arc.write(f"      model = {model_name}\n")
             response(f'criando form para {model_name}')
             
     def import_for_model(self):
