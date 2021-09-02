@@ -14,6 +14,11 @@ def _next(obj):
     return next(obj)
 
 
+@register.filter(name='get_item')
+def _get_item(obj, index_):
+    return obj[index_]
+
+
 @register.filter(name='str')
 def _str(obj):
     return str(obj)
