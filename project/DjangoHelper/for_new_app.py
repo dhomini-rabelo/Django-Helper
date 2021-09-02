@@ -4,7 +4,7 @@ from models.app import DjangoApp
 
 app_name = 'empresa'
 
-app = DjangoApp(bp, app_name)
+# app = DjangoApp(bp, app_name)
 
 #* NOVOS ARQUIVOS
 # app.create_url_archive()
