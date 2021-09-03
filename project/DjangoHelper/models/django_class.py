@@ -30,3 +30,6 @@ class DjangoBase:
         with io.open(path, mode='r', encoding='utf-8') as code_file:
             code = code_file.readlines()
             return code
+        
+
+        

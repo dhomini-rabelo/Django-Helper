@@ -12,13 +12,6 @@ class DjangoProject(DjangoBase):
         self.project = self.adapt_path(project)
         self.path = f'{self.base_path}/{self.project}'
         assert_folder_existence(self.path)
-
-    def create_base_folders(self):
-        base_folders = ['Static', 'Templates', 'Templates/Parts', 'Media', 'Media/images']
-        for new_folder in base_folders:
-            sleep(0.5)
-            Path(f'{self.base_path}/{new_folder}').mkdir()
-            response(f'Criando pasta {new_folder}')
             
     def adapt_urls_py(self):
         editor = Editor(self.path, 'urls.py')
@@ -27,7 +20,22 @@ class DjangoProject(DjangoBase):
         nr = editor.add_in_line('from django.urls', ', include', nr)
         editor.update(nr)
     
-    def settings_replaces(self):
+    def insert_important_comments(self):
+        editor = Editor(self.path, 'settings.py')
+        pos = editor.get_line('INSTALLED_APPS')
+        inserts = ("DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'", "\n# My configurations",
+                   "INSTALLED_APPS", '    # Django apps',
+                   pos + 9, '# My apps\n#Others apps'
+        )
+        for index_, change in enumerate(inserts):
+            if index_ == 0:
+                nr = editor.insert_code(change[0], change[1])
+            else:
+                nr = editor.insert_code(change[0], change[1], nr)
+        if len(inserts) > 0:
+            editor.update(nr)
+        
+    def _settings_replaces(self):
         replaces = [
             ("        'DIRS': [],", "        'DIRS': [Path(BASE_DIR, 'Templates')],"),
             ("LANGUAGE_CODE = 'en-us'", "LANGUAGE_CODE = 'pt-br'"),
@@ -36,9 +44,9 @@ class DjangoProject(DjangoBase):
         ]
         return replaces
         
-    def settings_inserts(self):
+    def _settings_inserts(self):
         inserts = [
-            ("STATIC_URL = '/static/'", "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Static')]\nSTATIC_ROOT = Path('static')\n\nMEDIA_ROOT = Path(BASE_DIR,'Media')\nMEDIA_URL = '/media/'\nMESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'\nSESSION_COOKIE_AGE = 60*60*24*7"),
+            ("# My configurations", "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Support/Layouts/Static')]\nSTATIC_ROOT = Path('static')\n\nMEDIA_ROOT = Path(BASE_DIR,'Support/Layouts/Media')\nMEDIA_URL = '/media/'\nMESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'\nSESSION_COOKIE_AGE = 60*60*24*7"),
             #("", ""),
         ]
         return inserts
@@ -61,7 +69,7 @@ class DjangoProject(DjangoBase):
                 nr = editor.insert_code(change[0], change[1], nr)
         if len(inserts) > 0:
             editor.update(nr)
-                
+            
             
 
     

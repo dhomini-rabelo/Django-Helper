@@ -50,10 +50,6 @@ class Editor(DjangoBase):
             reading.insert(number_line + 1, f'{new}\n')
         return reading
         
-    def insert_comment(self, line:int, comment: str, reading: list = None):
-        reading = self.reading(reading)
-        reading.insert(line, f'# {comment}\n')
-        return reading
         
     def update(self, reading: list):
         if check_null(reading):
