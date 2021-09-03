@@ -1,0 +1,2 @@
+class TypeNotFound(Exception):
+    pass

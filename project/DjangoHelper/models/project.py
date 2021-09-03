@@ -22,11 +22,10 @@ class DjangoProject(DjangoBase):
     
     def insert_important_comments(self):
         editor = Editor(self.path, 'settings.py')
-        pos = editor.get_line('INSTALLED_APPS')
-        inserts = ("DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'", "\n# My configurations",
-                   "INSTALLED_APPS", '    # Django apps',
-                   pos + 9, '# My apps\n#Others apps'
-        )
+        inserts = [("DEFAULT_AUTO_FIELD", "\n# My configurations"),
+                   ("INSTALLED_APPS", '    # Django apps'),
+                   ("    'django.contrib.staticfiles'", '    # My apps\n    # Others apps'),
+        ]
         for index_, change in enumerate(inserts):
             if index_ == 0:
                 nr = editor.insert_code(change[0], change[1])
@@ -37,24 +36,25 @@ class DjangoProject(DjangoBase):
         
     def _settings_replaces(self):
         replaces = [
-            ("        'DIRS': [],", "        'DIRS': [Path(BASE_DIR, 'Templates')],"),
+            ("        'DIRS': [],", "        'DIRS': [Path(BASE_DIR, 'Support/Layouts/Templates')],"),
             ("LANGUAGE_CODE = 'en-us'", "LANGUAGE_CODE = 'pt-br'"),
             ("TIME_ZONE = 'UTC'", "TIME_ZONE = 'America/Sao_Paulo'"),
+            (f"{sp(12)}],", f"{sp(12)}],\n'{sp(12)}libraries:'"+" {\n"+ f"{sp(12)}'filters': 'Support.TemplatesTags',\n{sp(12)}"+"}\n"),
             #("", ""),
         ]
         return replaces
         
     def _settings_inserts(self):
         inserts = [
-            ("# My configurations", "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Support/Layouts/Static')]\nSTATIC_ROOT = Path('static')\n\nMEDIA_ROOT = Path(BASE_DIR,'Support/Layouts/Media')\nMEDIA_URL = '/media/'\nMESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'\nSESSION_COOKIE_AGE = 60*60*24*7"),
+            ("# My configurations", "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Support/Layouts/Static')]\nSTATIC_ROOT = Path('static')\n\nMEDIA_ROOT = Path(BASE_DIR,'Support/Layouts/Media')\nMEDIA_URL = '/media/'\n\nMESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'\nSESSION_COOKIE_AGE = 60*60*24*7"),
             #("", ""),
         ]
         return inserts
     
     def adapt_settings(self):
         editor = Editor(self.path, 'settings.py')
-        replaces = self.settings_replaces()
-        inserts = self.settings_inserts()
+        replaces = self._settings_replaces()
+        inserts = self._settings_inserts()
         for index_, change in enumerate(replaces):
             if index_ == 0:
                 nr = editor.replace_code(change[0], change[1])

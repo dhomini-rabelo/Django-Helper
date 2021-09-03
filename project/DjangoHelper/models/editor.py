@@ -46,7 +46,7 @@ class Editor(DjangoBase):
     def insert_code(self, line_code, new: str, reading:list=None):
         reading = self.reading(reading)
         number_line = self.get_line(line_code, reading) if isinstance(line_code, str) else line_code
-        if number_line is not None:
+        if str(number_line).isnumeric():
             reading.insert(number_line + 1, f'{new}\n')
         return reading
         
