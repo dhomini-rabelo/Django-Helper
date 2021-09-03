@@ -55,7 +55,7 @@ class DjangoApp(DjangoBase):
             arc.write(f'from {self.app}.models import *\n')
             response(f'arquivo forms.py criado no app {self.app}')
 
-    def create_form(self, model_name: str):
+    def add_form(self, model_name: str):
         path = f'{self.base_path}/Support/forms/{self.app}.py'
         assert_file_existence(path)
         with io.open(path, 'a', encoding='utf-8') as arc:
