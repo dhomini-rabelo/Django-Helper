@@ -1,2 +1,6 @@
-class TypeNotFound(Exception):
+class TypeNotFoundError(Exception):
     pass
+
+class EqualTypeError(Exception):
+    pass
+    

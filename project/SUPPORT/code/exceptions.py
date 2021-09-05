@@ -1,2 +1,0 @@
-class TypeNotFound(Exception):
-    pass

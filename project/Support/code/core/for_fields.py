@@ -1,13 +1,6 @@
 from django.core.validators import validate_slug, validate_unicode_slug 
 
 
-def validate_unique_slug(Model, slug):
-    models = list(Model.objects.filter(slug=slug))
-    if len(models) == 0:
-        return True
-    return False
-
-
 def adapt_slug(slug: str):
     slug = slug.replace('_',' ').replace(' ','-').lower()
     adapted_slug = ''

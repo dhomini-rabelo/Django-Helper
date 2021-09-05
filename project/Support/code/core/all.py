@@ -1,10 +1,25 @@
-from .exceptions import TypeNotFound
+from utils import get_class
+from support import convert_validation
+from decimal import Decimal
 
-def convert(obj, initial_type: str, new_type: str):
-    possible_types = ['str', 'int', 'decimal']
-    if initial_type not in possible_types:
-        raise TypeNotFound(f'{initial_type} type not identified')
-    elif new_type not in possible_types:
-        raise TypeNotFound(f'{new_type} type not identified')
-    elif initial_type == new_type:
-        return obj
+def convert(obj, new_type: str):
+    if new_type == 'pass': return 
+    initial_type = get_class(obj)
+    convert_validation(initial_type, new_type)
+    if initial_type == 'str':
+        if new_type == 'int':
+            try: 
+                return int(obj)
+            except:
+                return 'error'
+        if new_type == 'decimal':
+            try: 
+                return Decimal(obj)
+            except:
+                return 'error'
+            
+
+obj = convert('1000.50', 'str')
+print(obj, type(obj))
+
+
