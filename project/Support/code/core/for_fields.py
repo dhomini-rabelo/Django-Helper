@@ -19,7 +19,7 @@ def adapt_slug(slug: str):
     return adapted_slug
 
 
-def set_slug(Model, slug: str):
+def set_slug(slug: str):
     invalid_letters = list()
     slug = adapt_slug(slug)
     slug_list = list(slug)
@@ -31,8 +31,6 @@ def set_slug(Model, slug: str):
             invalid_letters.append(letter)
     for letter in invalid_letters:
         slug_list.remove(letter)
-    while validate_unicode_slug(Model, slug):
-        slug_list += ['-', 'c']
     return "".join(slug_list)
     
     
