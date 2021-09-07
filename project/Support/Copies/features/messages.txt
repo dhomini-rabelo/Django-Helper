@@ -18,14 +18,17 @@ MESSAGE_TAGS = {
 {% endfor %}
 {% endif %}
 
+{% if messages %}
 {% for message in messages %}
-{% if message.constants.WARNING  %}
-<div class="alert alert-error" role="alert">
-  <h4 class="alert-heading">{{ message.tags }}</h4>
-  {% for form_error in forms_errors %}
+{% if message.tags == 'alert-warning'  %}
+<div class="alert alert-danger" role="alert">
+  <h4 class="alert-heading">{{ message }}</h4>
+  {% for form_error in form_errors %}
     <hr>
     <p class="mb-0">{{ form.error }}</p>
   {% endfor %}
 </div>
 {% endif %}
 {% endfor %}
+{% endif %}
+

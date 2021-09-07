@@ -6,3 +6,8 @@ class PersonForm(ModelForm):
     class Meta:
       fields = '__all__'
       model = Person
+
+class EscolaForm(ModelForm):
+    class Meta:
+      fields = '__all__'
+      model = Escola

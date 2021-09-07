@@ -1,6 +1,6 @@
 from exceptions import TypeNotFoundError, EqualTypeError
 
-def convert_validation(initial_type:str, new_type:str):
+def type_validation(initial_type:str, new_type:str):
     possible_types = ['str', 'int', 'decimal', 'bool', 'date', 'email',
                       'float', 'NoneType', 'slug']
     if initial_type not in possible_types:
