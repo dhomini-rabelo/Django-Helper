@@ -8,7 +8,7 @@ export function adaptLabels(optionals){
             label.innerHTML = label.innerHTML.slice(0, label.innerHTML.length - 13);
         }
 
-        if(label.getAttribute('id') in optionals){
+        if(label.getAttribute('for') in optionals){
             label.innerHTML += '(opcional):';
         }else{
             label.innerHTML += ':';
