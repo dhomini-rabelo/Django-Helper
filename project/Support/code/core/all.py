@@ -2,6 +2,7 @@ from django.core.validators import validate_slug, validate_unicode_slug
 from .validators import validate_for_email, validate_unique, validate_caracters
 from .utils import get_type
 from .support import type_validation, adapt_form_errors
+from string import digits
 from decimal import Decimal
 from datetime import datetime
 
@@ -90,3 +91,37 @@ def get_post_form_errors(Model, fields: list):
     form_errors = adapt_form_errors(form_errors)
     
     return form_errors if form_errors != [] else None 
+
+
+
+def create_session(request, name, value):
+    request.session[name] = value
+    
+    
+def delete_session(request, name):
+    request.session[name] = None
+
+
+def change_password(user, current_password, new_password1, new_password2):
+    errors_list = list()
+    if current_password is None:
+        errors_list.append('O campo senha atual é inválido')
+    if new_password1 is None:
+        errors_list.append('O campo de nova senha é inválido')
+    if new_password2 is None:
+        errors_list.append('O campo de confirmação de nova senha é inválido')
+    if errors_list == []:
+        if not user.check_password(current_password):
+            errors_list.append('A senha atual não está correta')
+        elif not new_password1 == new_password2:
+            errors_list.append('As senhas nonvas senhas não são iguais')
+        elif not validate_caracters(new_password1, False, False):
+            errors_list.append('A senha possui caracteres inválidos')
+        elif len(new_password1) < 8:
+            errors_list.append('A senha é muito curta')
+        else:
+            user.set_password(new_password1)
+            user.save()
+    return errors_list if errors_list != [] else None
+    
+    
