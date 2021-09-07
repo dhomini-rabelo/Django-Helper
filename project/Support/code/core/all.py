@@ -102,26 +102,35 @@ def delete_session(request, name):
     request.session[name] = None
 
 
-def change_password(user, current_password, new_password1, new_password2):
+def change_password(user, current_password, new_password, new_password_confirm):
     errors_list = list()
     if current_password is None:
         errors_list.append('O campo senha atual é inválido')
-    if new_password1 is None:
+    if new_password is None:
         errors_list.append('O campo de nova senha é inválido')
-    if new_password2 is None:
+    if new_password_confirm is None:
         errors_list.append('O campo de confirmação de nova senha é inválido')
     if errors_list == []:
         if not user.check_password(current_password):
             errors_list.append('A senha atual não está correta')
-        elif not new_password1 == new_password2:
+        elif not new_password == new_password_confirm:
             errors_list.append('As senhas nonvas senhas não são iguais')
-        elif not validate_caracters(new_password1, False, False):
+        elif not validate_caracters(new_password, False, False):
             errors_list.append('A senha possui caracteres inválidos')
-        elif len(new_password1) < 8:
+        elif len(new_password) < 8:
             errors_list.append('A senha é muito curta')
         else:
-            user.set_password(new_password1)
+            user.set_password(new_password)
             user.save()
     return errors_list if errors_list != [] else None
     
-    
+
+def validate_password(password, confirm_password):
+    if not password == confirm_password:
+        return 'As senhas nonvas senhas não são iguais'
+    elif not validate_caracters(password, False, False):
+        return 'A senha possui caracteres inválidos'
+    elif len(password) < 8:
+        return 'A senha é muito curta'
+    return 'valid'
+        
