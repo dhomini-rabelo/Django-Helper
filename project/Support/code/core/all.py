@@ -100,37 +100,36 @@ def create_session(request, name, value):
     
 def delete_session(request, name):
     request.session[name] = None
-
-
-def change_password(user, current_password, new_password, new_password_confirm):
-    errors_list = list()
-    if current_password is None:
-        errors_list.append('O campo senha atual é inválido')
-    if new_password is None:
-        errors_list.append('O campo de nova senha é inválido')
-    if new_password_confirm is None:
-        errors_list.append('O campo de confirmação de nova senha é inválido')
-    if errors_list == []:
-        if not user.check_password(current_password):
-            errors_list.append('A senha atual não está correta')
-        elif not new_password == new_password_confirm:
-            errors_list.append('As senhas nonvas senhas não são iguais')
-        elif not validate_caracters(new_password, False, False):
-            errors_list.append('A senha possui caracteres inválidos')
-        elif len(new_password) < 8:
-            errors_list.append('A senha é muito curta')
-        else:
-            user.set_password(new_password)
-            user.save()
-    return errors_list if errors_list != [] else None
     
-
-def validate_password(password, confirm_password):
+    
+def get_password_error(password, confirm_password):
     if not password == confirm_password:
         return 'As senhas nonvas senhas não são iguais'
     elif not validate_caracters(password, False, False):
         return 'A senha possui caracteres inválidos'
     elif len(password) < 8:
         return 'A senha é muito curta'
-    return 'valid'
+    return None
+
+
+def change_password(user, current_password, new_password, new_password_confirm):
+    errors_list = list()
+    if current_password is None:
+        errors_list.append('O campo senha atual não foi informado')
+    if new_password is None:
+        errors_list.append('O campo de nova senha não foi informado')
+    if new_password_confirm is None:
+        errors_list.append('O campo de confirmação de nova senha não foi informado')
+    if errors_list == []:
+        if not user.check_password(current_password):
+            errors_list.append('A senha atual não está correta')
+        else:
+            error_password = get_password_error(new_password, new_password_confirm)
+            if error_password is None:
+                user.set_password(new_password)
+                user.save()
+            errors_list.append(error_password)
+    return errors_list if errors_list != [] else None
+    
+
         
