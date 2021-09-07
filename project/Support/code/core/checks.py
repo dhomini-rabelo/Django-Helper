@@ -1,21 +1,6 @@
 from django.contrib import auth
 from decimal import Decimal
 from datetime import datetime
-
-def check_decimal(value):
-    try:
-        Decimal(1.00) + Decimal(value)
-        return False
-    except:
-        return True
-    
-
-def check_date(date: str):
-    try:
-        date_check = str(datetime.strptime(date, '%Y-%m-%d').date())
-        return date == date_check
-    except:
-        return False
     
     
 def check_null(obj):
