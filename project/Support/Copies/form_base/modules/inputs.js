@@ -29,3 +29,10 @@ export function setValueForInput(idInput, value){
         input.setAttribute('value', value);
     }
 }
+
+
+export function changeTypeInput(idInput, type) {
+    let input = document.querySelector(`input#${idInput}`);
+
+    input.setAttribute('type', type);
+}

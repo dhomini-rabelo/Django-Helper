@@ -1,24 +1,26 @@
 import {adaptTextAreas} from './modules/textAreas';
 import {adaptLabels} from './modules/labels';
-import {setRequiredInputs, setValueForInput} from './modules/input';
+import {setRequiredInputs, setValueForInput, changeTypeInput} from './modules/input';
 import {strDate} from './modules/utils';
 
 //! write ->  type = "module" in tag script
 
 
-document.addEventListener('DOMContentLoaded', adapt_form);
+
+document.addEventListener('DOMContentLoaded', adaptForm);
 
 
 
-function adapt_form(){
+function adaptForm(){
 
 
 
 
-    let editLabels = true;
-    let useRequiredInputs = true;
-    let useValuesForInputs = true;
-    let editTextAreas = true;
+    let useValuesForInputs = false;
+    let editTypeOfInputs = false;
+    let useRequiredInputs = false;
+    let editLabels = false;
+    let editTextAreas = false;
     
 
 
@@ -28,7 +30,36 @@ function adapt_form(){
 
 
 
-    
+    if (useValuesForInputs){
+        /* 
+        Edita o valor do input
+        */
+        let modifications = [
+           //('id_field', value),
+        ];//using id
+
+        for (let i in modifications){
+           setValueForInput(modifications[i][0], modifications[i][1]);
+        }
+    }
+
+
+
+    if (editTypeOfInputs){
+        /* 
+        Edita o tipo do input
+        */
+        let modifications = [
+            //('id_field', newType),
+         ];//using id
+ 
+         for (let i in modifications){
+            changeTypeInput(modifications[i][0], modifications[i][1]);
+         }        
+    }
+
+
+
     let optionalFields  = {
         // 'id_name': 0 -> initialIndex
     }// using id
@@ -47,18 +78,6 @@ function adapt_form(){
        adaptLabels(optionalFields);
     }
     
-    if (useValuesForInputs){
-        /* 
-        Edita o valor do input
-        */
-        modifications = [
-           //('id_field', 'value),
-        ];//using id
-
-        for (let i in modifications){
-           setValueForInput(modifications[i][0], modifications[i][1]);
-        }
-    }
 
 
     if (editTextAreas){
@@ -70,6 +89,8 @@ function adapt_form(){
         let columns = 0;
         adaptTextAreas(columns, rows);
     }
+
+
     
 }
 
