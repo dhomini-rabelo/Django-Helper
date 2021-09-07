@@ -1,35 +1,45 @@
-import {adaptTextAreas} from './modules/textArea';
-// write ->  type = "module" in tag script
+import {adaptTextAreas} from './modules/textAreas';
+import {adaptLabels} from './modules/labels';
+
+//! write ->  type = "module" in tag script
 
 document.addEventListener('DOMContentLoaded', adapt_form);
 
 
 function adapt_form(){
+    let editLabels = true;
     let editTextAreas = true;
     
-    if (editTextAreas){
-        let rows = 2;
-        let columns = 0;
-        adaptTextAreas(columns, rows)
+    
+    let optionalFields  = {
+        // 'nome': 'i'
     }
 
+    if (editLabels){
+        /* 
+        Edita o texto do label
+        */
+       adaptLabels(optionalFields);
+    }
+    
+    if (editTextAreas){
+        /* 
+        Controla tamanho da tag textarea no form, se
+        columns = 0, ele utiliza o valor padrão do form
+        */
+        let rows = 2;
+        let columns = 0;
+        adaptTextAreas(columns, rows);
+    }
+    
 
 
 
-
-    let weLabels = document.querySelectorAll('label')
     let weInputs = document.querySelectorAll('input')
 
     
 
-    weLabels.forEach((label) => {
-        if ('span' === label.innerHTML.slice(label.innerHTML.length - 6, label.innerHTML.length - 2)){
-            label.innerHTML = label.innerHTML.slice(0, label.innerHTML.length - 35)
-            label.innerHTML += ':'
-        }else{
-            label.innerHTML = `${label.innerHTML.slice(0, label.innerHTML.length - 13)}:`
-        }
-    })
+    
 
     weInputs.forEach((input) => {
         let type = input.getAttribute('type')
