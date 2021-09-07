@@ -39,7 +39,7 @@ class DjangoProject(DjangoBase):
             ("        'DIRS': [],", "        'DIRS': [Path(BASE_DIR, 'Support/Layouts/Templates')],"),
             ("LANGUAGE_CODE = 'en-us'", "LANGUAGE_CODE = 'pt-br'"),
             ("TIME_ZONE = 'UTC'", "TIME_ZONE = 'America/Sao_Paulo'"),
-            (f"{sp(12)}],", f"{sp(12)}],\n'{sp(12)}libraries:'"+" {\n"+ f"{sp(12)}'filters': 'Support.TemplatesTags',\n{sp(12)}"+"}\n"),
+            (f"{sp(12)}],", f"{sp(12)}],\n{sp(12)}'libraries':"+" {\n"+ f"{sp(12)}'filters': 'Support.TemplatesTags',\n{sp(12)}"+"}\n"),
             #("", ""),
         ]
         return replaces

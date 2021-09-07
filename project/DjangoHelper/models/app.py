@@ -89,7 +89,7 @@ class DjangoApp(DjangoBase):
         editor  = Editor(self.path, f'admin.py')
         nr = editor.read(editor.path)
         model = model_name.title()
-        nr.append(f"@admin.register({model})\nclass {model}Admin(admin.ModelAdmin):\n    list_display = '',\n    list_display_links = '',")
+        nr.append(f"\n\n@admin.register({model})\nclass {model}Admin(admin.ModelAdmin):\n    list_display = '',\n    list_display_links = '',")
         editor.update(nr)
         
     def register_view(self, name_view, logged=True):
