@@ -1,13 +1,26 @@
-document.addEventListener('DOMContentLoaded', adapt_labels)
+import {adaptTextAreas} from './modules/textArea';
+// write ->  type = "module" in tag script
+
+document.addEventListener('DOMContentLoaded', adapt_form);
 
 
-function adapt_labels(){
-    let weTextArea = document.querySelector('textarea')
+function adapt_form(){
+    let editTextAreas = true;
+    
+    if (editTextAreas){
+        let rows = 2;
+        let columns = 0;
+        adaptTextAreas(columns, rows)
+    }
+
+
+
+
+
     let weLabels = document.querySelectorAll('label')
     let weInputs = document.querySelectorAll('input')
 
-    weTextArea.setAttribute('rows', '2')
-    weTextArea.setAttribute('required', '')
+    
 
     weLabels.forEach((label) => {
         if ('span' === label.innerHTML.slice(label.innerHTML.length - 6, label.innerHTML.length - 2)){

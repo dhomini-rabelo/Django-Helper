@@ -57,9 +57,9 @@ def convert_validation(obj, new_type: str):
 def get_post_form_errors(Model, fields: list):
     """
     Model list fields
-    [fields(example: name), variable_for_convert_validation, name_field_for_error_messages,
+    [[fields(example: name), variable_for_convert_validation, name_field_for_error_messages,
     specific_list_validation_with_tuples(example)[('unique', 'argument: slug')]
-    ]
+    ],]
     variable_for_convert_validation = 'pass' if field don't return str field
     """
     invalid_fields = []
