@@ -36,3 +36,12 @@ export function changeTypeInput(idInput, type) {
 
     input.setAttribute('type', type);
 }
+
+
+export function addError(idInput, errorMessage) {
+    let input = document.querySelector(`input#${idInput}`);
+    let currentClass = input.getAttribute('class');
+    input.setAttribute('class', `${currentClass} is-invalid`);
+    let weError = `<p id="error_1_${idInput}" class="invalid-feedback"><strong>${errorMessage}</strong></p></strong></p> </div>`
+    input.appendChild(weError);
+}
