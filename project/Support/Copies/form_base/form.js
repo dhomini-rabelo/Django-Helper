@@ -2,14 +2,15 @@ import {adaptTextAreas} from './modules/textAreas';
 import {adaptLabels} from './modules/labels';
 import {setRequiredInputs, setValueForInput, changeTypeInput} from './modules/input';
 import { addMask, forMoneyBRMask } from './modules/masks';
+import { inputValidator } from './modules/validateInput';
 import {strDate} from './modules/utils';
 
 //! write ->  type = "module" in tag script
 
 
 
-document.addEventListener('DOMContentLoaded', adaptForm);
-
+document.addEventListener('load', adaptForm);
+// DOMContentLoaded
 
 
 function adaptForm(){
@@ -23,6 +24,7 @@ function adaptForm(){
     let editLabels = false;
     let editTextAreas = false;
     let useMasks = false;
+    let useInputValidator = false;
     
 
 
@@ -73,6 +75,8 @@ function adaptForm(){
         setRequiredInputs(optionalFields);
     }
 
+
+
     if (editLabels){
         /* 
         Edita o texto do label
@@ -105,6 +109,22 @@ function adaptForm(){
         }  
         // case moneyBR in modifications 
         // forMoneyBRMask(idInput);
+    }
+
+
+
+    if (useInputValidator){
+        let idInputs = [
+            //'id'
+        ];
+        let inputs = [];
+        for(let idInput in idInputs) {
+            let input = document.querySelector(idInput);
+            inputs.push(input);
+        }
+        inputs.forEach((input) => {
+            input.addEventListener('blur', inputValidator);
+        });
     }
 }
 
