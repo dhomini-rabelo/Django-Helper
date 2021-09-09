@@ -24,6 +24,7 @@ function phoneBRMask(idInput) {
 
 function moneyBRMask(idInput) {
     new Cleave(idInput, {
+        prefix: 'R$ ',        
         numeral: true,
         numeralDecimalMark: ',',
         delimiter: '.'
