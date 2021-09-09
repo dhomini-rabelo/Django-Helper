@@ -1,7 +1,7 @@
 import {adaptTextAreas} from './modules/textAreas';
 import {adaptLabels} from './modules/labels';
 import {setRequiredInputs, setValueForInput, changeTypeInput} from './modules/input';
-import { addMask } from './modules/masks';
+import { addMask, forMoneyBRMask } from './modules/masks';
 import {strDate} from './modules/utils';
 
 //! write ->  type = "module" in tag script
@@ -102,7 +102,9 @@ function adaptForm(){
         let allowedMasks = ['cpf', 'cnpj', 'phoneBR', 'dateBR', 'moneyBR', 'card', 'numericOnly', 'numericPositiveOnly', 'securityPasswordCard']
         for (let i in modifications){
             addMask(modifications[i][0], modifications[i][1]);
-         }   
+        }  
+        // case moneyBR in modifications 
+        // forMoneyBRMask(idInput);
     }
 }
 
