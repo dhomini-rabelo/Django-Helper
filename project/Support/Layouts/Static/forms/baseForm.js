@@ -134,7 +134,12 @@ function adaptForm(){
 
 
     if (useInputsInARow){
-        
+        //! use div.row para abranger esses 
+        let minorInputs = document.querySelector("div.row > div");
+        minorInputs.forEach((input) => {
+            currentClass = input.getAttribute("class");
+            input.setAttribute("class", `col-md-6 ${currentClass}`);
+        });
     }
 }
 
