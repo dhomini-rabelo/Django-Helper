@@ -94,15 +94,6 @@ def get_post_form_errors(Model, fields: list):
     form_errors = adapt_form_errors(form_errors)
     
     return form_errors if form_errors != [] else None 
-
-
-
-def create_session(request, name, value):
-    request.session[name] = value
-    
-    
-def delete_session(request, name):
-    request.session[name] = None
     
     
 def get_password_error(password, confirm_password):
@@ -135,4 +126,15 @@ def change_password(user, current_password, new_password, new_password_confirm):
     return errors_list if errors_list != [] else None
     
 
+
+
+class Session:
+    def __init__(self, request, name, initial_value):
+        self.name = name
+        self.edit(request, initial_value)
+    
+    def edit(self, request, value):
+        request[self.name] = value
         
+    def delete(self, request):
+        request[self.name] = None
