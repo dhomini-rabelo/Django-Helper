@@ -1,7 +1,8 @@
 import {adaptTextAreas} from './modules/textAreas';
 import {adaptLabels} from './modules/labels';
 import {setRequiredInputs, setValueForInput, changeTypeInput} from './modules/input';
-import { addMask, forMoneyBRMask } from './modules/masks';
+import { addMask } from './modules/masks';
+import { forMoneyBRMask, strMask } from './modules/functions';
 import { inputValidator } from './modules/validateInput';
 import {strDate} from './modules/utils';
 
@@ -107,8 +108,9 @@ function adaptForm(){
         for (let i in modifications){
             addMask(modifications[i][0], modifications[i][1]);
         }  
-        // case moneyBR in modifications 
-        // forMoneyBRMask(idInput);
+        //* Functions
+        // case mask for string --> strMask(idInput)
+        // case moneyBR in modifications  --> forMoneyBRMask(idInput);
     }
 
 
