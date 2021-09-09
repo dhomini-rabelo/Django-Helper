@@ -21,6 +21,7 @@ function adaptForm(){
     let useRequiredInputs = false;
     let editLabels = false;
     let editTextAreas = false;
+    let useMasks = false;
     
 
 
@@ -92,5 +93,12 @@ function adaptForm(){
 
 
     
+    if (useMasks){
+        //! <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+        let modifications = [
+            //('id_field', mask),
+        ];//using id
+        let allowedMasks = ['cpf', 'cnpj', 'phoneBR', 'dateBR', 'moneyBR', 'card', 'numericOnly', 'numericPositiveOnly', 'securityPasswordCard']
+    }
 }
 
