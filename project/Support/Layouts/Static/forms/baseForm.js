@@ -7,6 +7,7 @@ import { inputValidator } from './modules/validateInput';
 import {strDate} from './modules/utils';
 
 //! write ->  type = "module" in tag script
+// test use class needs-validation
 
 
 
@@ -26,6 +27,7 @@ function adaptForm(){
     let editTextAreas = false;
     let useMasks = false;
     let useInputValidator = false;
+    let useInputsInARow = false;
     
 
 
@@ -109,7 +111,7 @@ function adaptForm(){
             addMask(modifications[i][0], modifications[i][1]);
         }  
         //* Functions
-        // case mask for string --> strMask(idInput)
+        // case mask for string --> strMask(idInput, False)
         // case moneyBR in modifications  --> forMoneyBRMask(idInput);
     }
 
@@ -127,6 +129,12 @@ function adaptForm(){
         inputs.forEach((input) => {
             input.addEventListener('blur', inputValidator);
         });
+    }
+
+
+
+    if (useInputsInARow){
+        
     }
 }
 

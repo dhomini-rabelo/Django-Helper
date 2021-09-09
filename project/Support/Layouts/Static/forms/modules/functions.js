@@ -29,18 +29,31 @@ export function forMoneyBRMask(idInput){
     }
 }
 
-export function strMask(idInput){
-    let weInput = document.querySelector(idInput)
-    weInput.addEventListener('blur', onlyLetters)
+export function toTitleCase(str){
+    let newStr = '';
+    for (let c in str){
+        if (c === 0 || str[c-1] === " "){
+            newStr += str.toUpperCase();
+        }else{
+            newStr += str.toLowerCase();
+        }
+    }
+
+}
+
+export function strMask(idInput, useTitleCase){
+    let weInput = document.querySelector(idInput);
+    weInput.addEventListener('blur', onlyLetters);
     
     function onlyLetters(e){
-        let text = e.target.value
-        let newText = ''
+        let text = e.target.value;
+        let newText = '';
         for (letter of text){
             if (isNaN(letter)){
-                newText += letter
+                newText += letter;
             }
         }   
-        e.target.value = newText
+        e.target.value = useTitleCase ? newText : toTitleCase(newText);
     }
 }
+
