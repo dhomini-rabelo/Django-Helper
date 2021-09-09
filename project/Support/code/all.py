@@ -1,7 +1,10 @@
+# django
 from django.core.validators import validate_slug, validate_unicode_slug 
+# this module
 from .validators import validate_for_email, validate_unique, validate_caracters
 from .utils import get_type
 from .support import type_validation, adapt_form_errors
+# others
 from string import digits
 from decimal import Decimal
 from datetime import datetime

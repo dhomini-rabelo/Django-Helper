@@ -1,3 +1,4 @@
+# this module
 from .exceptions import TypeNotFoundError, EqualTypeError
 
 def type_validation(initial_type:str, new_type:str):

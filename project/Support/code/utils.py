@@ -1,4 +1,3 @@
-from decimal import Decimal
 
 
 def simplification(obj_name: str):

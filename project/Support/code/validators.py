@@ -1,4 +1,6 @@
-from django.core.validators import validate_email, validate_integer
+# django
+from django.core.validators import validate_email
+# others
 from string import ascii_letters, digits
 
 
