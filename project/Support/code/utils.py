@@ -18,7 +18,7 @@ def get_type(obj):
 
 
 def filters(string: str, new_type: str):
-    alloweds_new_types = ['title', 'strip', 'name']
+    alloweds_new_types = ['title', 'strip', 'name', 'only_numbers', 'money_br']
     if new_type == 'title':
         return string.title()
     elif new_type == 'strip':
@@ -39,8 +39,20 @@ def filters(string: str, new_type: str):
         for number in organized_repeated_spaces:
             string = string.replace(" "*number, " ")
         return string
+    elif new_type == 'only_numbers':
+        new_string = ''
+        for letter in string:
+            if letter in list('0123456789'):
+                new_string += letter
+        return new_string
+    elif new_type == 'money_br':
+        new_string = ''
+        for letter in string:
+            if letter in list('0123456789,'):
+                new_string += letter
+        return new_string        
+            
 
-print(filters('   dhomini    salgado  rabelo    ', 'name'))
 
     
     
