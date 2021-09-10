@@ -1,3 +1,4 @@
+# Isto já está no requirements.txt
 pip install django-crispy-forms
 pip install crispy-bootstrap5
 

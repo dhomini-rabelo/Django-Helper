@@ -2,7 +2,7 @@ import {adaptTextAreas} from './modules/textAreas';
 import {adaptLabels} from './modules/labels';
 import {setRequiredInputs, setValueForInput, changeTypeInput} from './modules/input';
 import { addMask } from './modules/masks';
-import { forMoneyBRMask, strMask } from './modules/functions';
+import { forMoneyBRMask, strMask, forDateBRMask } from './modules/functions';
 import { inputValidator } from './modules/validateInput';
 import {strDate} from './modules/utils';
 
@@ -115,6 +115,7 @@ function adaptForm(){
         //* Functions
         // case mask for string --> strMask(idInput, False)
         // case moneyBR in modifications  --> forMoneyBRMask(idInput);
+        // case dateBR in modifications  --> forDateBRMask(idInput); use valor 01/01/2000 como inicial
     }
 
 
@@ -136,7 +137,7 @@ function adaptForm(){
 
 
     if (useInputsInARow){
-        //! use div.row para abranger esses 
+        //! use div.row para abranger esses inputs
         let minorInputs = document.querySelector("div.row > div");
         minorInputs.forEach((input) => {
             currentClass = input.getAttribute("class");

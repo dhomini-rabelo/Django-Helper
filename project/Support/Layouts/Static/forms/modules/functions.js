@@ -57,3 +57,24 @@ export function strMask(idInput, useTitleCase){
     }
 }
 
+
+export function forDateBRMask(idInput){
+    let input = document.getElementById(idInput);
+    input.addEventListener('focus', dateEffectFocus);
+    input.addEventListener('blur', dateEffectBlur);
+
+
+    function dateEffectFocus(){
+        if (input.value === "01/01/2000"){
+            input.value = ""
+        }
+    }
+
+
+    function dateEffectBlur(){
+        if (input.value.length < 10){
+            input.value = "01/01/2000"
+        }
+    }
+
+}

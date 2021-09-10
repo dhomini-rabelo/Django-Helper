@@ -34,7 +34,7 @@ function moneyBRMask(idInput) {
 function dateBRMask(idInput) {
     new Cleave(idInput, {
         date: true,
-        // dateMin: '2000-01-01',
+        dateMin: '1900-01-01',
         dateMax: '2100-01-01',
         delimiters: ['/', '/'],
         datePattern: ['d', 'm', 'Y']
