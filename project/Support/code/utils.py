@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 
 
 def simplification(obj_name: str):
@@ -53,9 +54,9 @@ def filters(string: str, new_type: str):
         return new_string.replace(',', '.')        
             
 
-list_cnpj = list('12345678912345')
-list_cnpj.insert(2, '.')
-list_cnpj.insert(6, '.')
-list_cnpj.insert(10, '/')
-list_cnpj.insert(15, '-')
-print("".join(list_cnpj))
+def get_age(date: str):
+    input_date = datetime.strptime(date, '%Y-%m-%d') 
+    today_date = datetime.now()
+    difference = today_date - input_date
+    return int(difference.days/365.25)
+    
