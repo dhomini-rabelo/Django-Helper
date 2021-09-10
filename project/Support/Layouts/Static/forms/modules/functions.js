@@ -1,5 +1,5 @@
 export function forMoneyBRMask(idInput){
-    let input = document.querySelector(idInput);
+    let input = document.getElementById(idInput);
     input.addEventListener('focus', moneyBRFocus);
     input.addEventListener('blur', moneyBRBlur);
 
@@ -42,7 +42,7 @@ export function toTitleCase(str){
 }
 
 export function strMask(idInput, useTitleCase){
-    let weInput = document.querySelector(idInput);
+    let weInput = document.getElementById(idInput);
     weInput.addEventListener('blur', onlyLetters);
     
     function onlyLetters(e){

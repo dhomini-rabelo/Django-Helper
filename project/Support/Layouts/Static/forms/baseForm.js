@@ -39,7 +39,7 @@ function adaptForm(){
 
     if (useValuesForInputs){
         /* 
-        Edita o valor do input
+        Edita o valor do input, como colocar um valor padrão para datas
         */
         let modifications = [
            //('id_field', value),
@@ -54,7 +54,8 @@ function adaptForm(){
 
     if (editTypeOfInputs){
         /* 
-        Edita o tipo do input
+        Edita o tipo do input, como trocar text para date ou number para text,
+        caso queira usar máscaras
         */
         let modifications = [
             //('id_field', newType),
@@ -103,6 +104,7 @@ function adaptForm(){
     
     if (useMasks){
         //! <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+        //! Adaptado para uso com input do tipo text
         let modifications = [
             //('id_field', mask),
         ];//using id
@@ -123,7 +125,7 @@ function adaptForm(){
         ];
         let inputs = [];
         for(let idInput in idInputs) {
-            let input = document.querySelector(idInput);
+            let input = document.getElementById(idInput);
             inputs.push(input);
         }
         inputs.forEach((input) => {
