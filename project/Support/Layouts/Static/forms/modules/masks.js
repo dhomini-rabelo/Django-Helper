@@ -9,7 +9,7 @@ function cpfMask(idInput) {
 function cnpjMask(idInput) {
     new Cleave(idInput, {
         delimiters: ['.', '.', '/', '-'],
-        blocks: [3, 3, 3, 5, 2],
+        blocks: [2, 3, 3, 4, 2],
         numericOnly: true
     });
 }

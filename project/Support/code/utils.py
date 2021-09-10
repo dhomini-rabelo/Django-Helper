@@ -50,11 +50,12 @@ def filters(string: str, new_type: str):
         for letter in string:
             if letter in list('0123456789,'):
                 new_string += letter
-        return new_string        
+        return new_string.replace(',', '.')        
             
 
-
-    
-    
-
-
+list_cnpj = list('12345678912345')
+list_cnpj.insert(2, '.')
+list_cnpj.insert(6, '.')
+list_cnpj.insert(10, '/')
+list_cnpj.insert(15, '-')
+print("".join(list_cnpj))
