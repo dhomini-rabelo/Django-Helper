@@ -16,6 +16,32 @@ def get_type(obj):
     class_name = str_type[initial_position+1:end_position]
     return simplification(class_name)
 
+
+def filters(string: str, new_type: str):
+    alloweds_new_types = ['title', 'strip', 'name']
+    if new_type == 'title':
+        return string.title()
+    elif new_type == 'strip':
+        return string.strip()
+    elif new_type == 'name':
+        string = string.strip().title()
+        repeated_spaces = []
+        spaces = 0
+        for letter in string:
+            if spaces == 0 and letter == " ":
+                spaces += 1
+            elif letter != " ":
+                spaces = 0
+            else:
+                spaces += 1
+                repeated_spaces.append(spaces)
+        organized_repeated_spaces =  sorted(list(set(repeated_spaces)), reverse=True)
+        for number in organized_repeated_spaces:
+            string = string.replace(" "*number, " ")
+        return string
+
+print(filters('   dhomini    salgado  rabelo    ', 'name'))
+
     
     
 
