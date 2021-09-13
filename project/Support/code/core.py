@@ -131,10 +131,12 @@ def change_password(user, current_password, new_password, new_password_confirm):
 class Session:
     def __init__(self, request, name, initial_value):
         self.name = name
-        self.edit(request, initial_value)
+        self.request = request
+        self.edit(initial_value)
+        self.value = request[name]
     
-    def edit(self, request, value):
-        request[self.name] = value
+    def edit(self, value):
+        self.request[self.name] = value
         
-    def delete(self, request):
-        request[self.name] = None
+    def delete(self):
+        self.request[self.name] = None

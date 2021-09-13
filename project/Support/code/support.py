@@ -21,3 +21,17 @@ def adapt_form_errors(form_errors: dict):
     for error in form_errors['other_errors']:
         list_errors.append(error)   
     return list_errors 
+
+
+def adapt_list_of_post_form(post_form_list: list):
+    new_list = []
+    for form_list in post_form_list:
+        if len(form_list) == 4:
+            new_list.append(form_list)
+        elif len(form_list) == 3:
+            model = form_list[:]
+            model.append([])
+            new_list.append(model)
+        else:
+            new_list.append(form_list)
+    return new_list
