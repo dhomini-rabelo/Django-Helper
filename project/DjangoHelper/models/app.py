@@ -82,7 +82,7 @@ class DjangoApp(DjangoBase):
 
     def register_app(self, project_name: str):
         editor  = Editor(self.base_path, f'{project_name}/settings.py')
-        nr = editor.insert_code('    # My apps', f"    '{self.app}'")
+        nr = editor.insert_code('    # My apps', f"    '{self.app}.{self.app.title()}Config'")
         editor.update(nr)
 
     def register_admin(self, model_name: str):
