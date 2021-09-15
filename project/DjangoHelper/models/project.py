@@ -46,7 +46,7 @@ class DjangoProject(DjangoBase):
         
     def _settings_inserts(self):
         inserts = [
-            ("# My configurations", "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Support/Layouts/Static')]\nSTATIC_ROOT = Path('static')\n\nMEDIA_ROOT = Path(BASE_DIR,'Support/Layouts/Media')\nMEDIA_URL = '/media/'\n\nMESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'\nSESSION_COOKIE_AGE = 60*60*24*7"),
+            ("# My configurations", "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Support/Layouts/Static')]\nSTATIC_ROOT = Path('static')\n\nMEDIA_ROOT = Path(BASE_DIR,'Support/Layouts/Media')\nMEDIA_URL = '/media/'\n\nMESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'\nSESSION_COOKIE_AGE = 60*60*24*7\nACCOUNT_SESSION_REMEMBER = True\n"),
             #("", ""),
         ]
         return inserts
