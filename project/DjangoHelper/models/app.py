@@ -82,11 +82,11 @@ class DjangoApp(DjangoBase):
 
     def register_app(self, project_name: str):
         editor  = Editor(self.base_path, f'{project_name}/settings.py')
-        nr = editor.insert_code('    # My apps', f"'    {self.app}.models.{self.app.title()}Config'")
+        nr = editor.insert_code('    # My apps', f"    '{self.app}'")
         editor.update(nr)
 
     def register_admin(self, model_name: str):
-        editor  = Editor(self.path, f'admin.py')
+        editor  = Editor(self.path, f'__init__.py')
         nr = editor.read(editor.path)
         model = model_name.title()
         nr.append(f"\n\n@admin.register({model})\nclass {model}Admin(admin.ModelAdmin):\n    list_display = '',\n    list_display_links = '',")
