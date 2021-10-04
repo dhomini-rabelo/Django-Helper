@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    {% include 'includes/_head.html' %}
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'base.css' %}">
+    {% include 'base/includes/_head.html' %}
+    <link rel="stylesheet" href="{% static 'styles/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/base.css' %}">
     {% block links %}
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>

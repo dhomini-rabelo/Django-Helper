@@ -6,7 +6,7 @@ from string import ascii_letters, digits
 
 def validate_caracters(text: str, with_accents=True, spaces=True):
     accents = 'áàéèíìóòúùâêîôûãõ' if with_accents else ''
-    space = 'áàéèíìóòúùâêîôûãõ' if spaces else ''
+    space = ' ' if spaces else ''
     symbols = "@.+-_"
     alloweds = symbols + digits + ascii_letters + accents + space
     for letter in text.lower():
@@ -23,9 +23,9 @@ def validate_for_email(email: str):
         return False
     
     
-def validate_unique(Model, field: str):
+def validate_unique(Model, field: str, new_field):
     fields = list(item[0] for item in Model.objects.values_list(field))
-    if field in fields:
+    if new_field in fields:
         return False
     return True
     

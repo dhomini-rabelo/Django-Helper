@@ -1,17 +1,17 @@
-import {adaptTextAreas} from './modules/textAreas';
-import {adaptLabels} from './modules/labels';
-import {setRequiredInputs, setValueForInput, changeTypeInput} from './modules/input';
-import { addMask } from './modules/masks';
-import { forMoneyBRMask, strMask, forDateBRMask } from './modules/functions';
-import { inputValidator } from './modules/validateInput';
-import {strDate} from './modules/utils';
+import {adaptTextAreas} from './modules/textAreas.js';
+import {adaptLabels} from './modules/labels.js';
+import {setRequiredInputs, setValueForInput, changeTypeInput} from './modules/inputs.js';
+import { addMask } from './modules/masks.js';
+import { forMoneyBRMask, strMask, forDateBRMask } from './modules/functions.js';
+import { inputValidator } from './modules/validateInput.js';
+import {strDate} from './modules/utils.js';
 
 //! write ->  type = "module" in tag script
 // test use class needs-validation
 
 
 
-document.addEventListener('load', adaptForm);
+document.addEventListener('DOMContentLoaded', adaptForm);
 // DOMContentLoaded
 
 
