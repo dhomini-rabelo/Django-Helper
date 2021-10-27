@@ -1,0 +1,2 @@
+add list per page no padrão do admin
+melhorar validate unique para funcionar com tipos diferentes como int, str, date, datetime pq 55 é diferente de '55'

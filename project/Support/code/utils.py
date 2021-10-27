@@ -18,8 +18,10 @@ def get_type(obj):
     return simplification(class_name)
 
 
-def filters(string: str, new_type: str):
+def filters(string, new_type: str = 'strip'):
     alloweds_new_types = ['strip', 'name', 'only_numbers', 'money_br']
+    if not isinstance(string, str):
+        return string
     if new_type == 'strip':
         return string.strip()
     elif new_type == 'name':

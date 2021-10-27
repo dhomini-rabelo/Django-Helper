@@ -76,7 +76,7 @@ class DjangoApp(DjangoBase):
         
     def config_app(self):
         editor = Editor(self.path, '__init__.py')
-        new_import = f"from django.apps import AppConfig\n\nclass {self.app.title()}Config(AppConfig):\n      default_auto_field = 'django.db.models.BigAutoField'\n   name = '{self.app}'"
+        new_import = f"from django.apps import AppConfig\n\nclass {self.app.title()}Config(AppConfig):\n    default_auto_field = 'django.db.models.BigAutoField'\n    name = '{self.app}'"
         nr = editor.insert_code(0, new_import) # new_reading
         editor.update(nr)
 
@@ -107,8 +107,8 @@ class DjangoApp(DjangoBase):
         nr.insert(1, "from django.contrib.auth.models import AbstractUser\nfrom django.utils.safestring import mark_safe\nfrom django.utils import timezone\n")
         editor.update(nr)
 
-    def register_abstract_user(self):
-        editor  = Editor(self.base_path, f'settings.py')
+    def register_abstract_user(self, project_name):
+        editor  = Editor(self.base_path, f'{project_name}/settings.py')
         nr = editor.read(editor.path)
         nr.append(f"\nAUTH_USER_MODEL = 'accounts.User'\nACCOUNT_SESSION_REMEMBER = True\nACCOUNT_UNIQUE_EMAIL = True\n")
         editor.update(nr)

@@ -14,7 +14,7 @@ app = DjangoApp(bp, app_name)
 
 #* CRIAR ABSTRACT USER
 # app.create_abstract_user_model()
-# app.register_abstract_user()
+# app.register_abstract_user(project_name)
 
 #* CRIAR FORMS
 # app.add_form('Pessoa')

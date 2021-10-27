@@ -40,7 +40,7 @@ def convert_validation(obj, new_type: str):
                 return 'convert_error'
         elif new_type == 'date':
             try:
-                date_check = datetime.strptime(obj, '%Y-%m-%d').date()
+                date_check = datetime.strptime(obj, '%d/%m/%Y').date()
                 return obj
             except:
                 return 'convert_error'
@@ -51,9 +51,6 @@ def convert_validation(obj, new_type: str):
                 return obj
             except:
                 return 'convert_error'        
-        elif new_type == 'email':
-            condition = validate_for_email(obj)
-            return obj if condition else 'convert_error'
     elif initial_type is None:
         return 'initial_type_error'
       
@@ -75,15 +72,20 @@ def get_post_form_errors(fields: list, Model=None):
     
     for field, convert_var, name, more_validations in fields:
         validation = convert_validation(field, convert_var)
-        if str(validation) == 'convert_error':
+
+        if str(validation) == 'initial_type_error' or check_null(field):
+            none_fields.append(name)  
+        elif str(validation) == 'convert_error':
             invalid_fields.append(name)
-        elif str(validation) == 'initial_type_error' or check_null(str(field)):
-            none_fields.append(name)        
         else:
             for other_validation in more_validations:
                 if other_validation[0] == 'unique':
                     if not validate_unique(Model, other_validation[1], field):
                         other_errors.append(['unique', name])
+                if other_validation[0] == 'exists':
+                    field_ = int(field) if convert_var == 'int' else field
+                    if validate_unique(Model, other_validation[1], field_):
+                        other_errors.append(['exists', name])
                 if other_validation[0] == 'email':
                     if not validate_for_email(field):
                         other_errors.append(['email', name])
@@ -99,21 +101,25 @@ def get_post_form_errors(fields: list, Model=None):
                 if other_validation[0] == 'max_length':
                     if len(str(field)) > other_validation[1]:
                         other_errors.append(['max_length', name, other_validation[1]])
+                if other_validation[0] == 'only_str':
+                    if not validate_caracters(field, True, True, False, False):
+                        other_errors.append(['caracters', name])
+
     
     form_errors = {'invalid_fields': invalid_fields, 'none_fields': none_fields,
                     'other_errors': other_errors}
     
     form_errors = adapt_form_errors(form_errors)
-    return form_errors if form_errors != [] else None
+    return form_errors if form_errors != {} else None
     
     
 def get_password_error(password, confirm_password):
     if not password == confirm_password:
-        return 'As senhas nonvas senhas não são iguais'
-    elif not validate_caracters(password, False, False):
-        return 'A senha possui caracteres inválidos'
-    elif len(password) < 8:
-        return 'A senha é muito curta'
+        return [0, 'As senhas são diferentes']
+    elif not validate_caracters(password, False):
+        return [1, 'A senha possui caracteres inválidos, é permitido apenas números, letras sem acento e os símbolos "@.+-_"']
+    elif len(password) < 6:
+        return [2, 'A senha é deve ter no mínimo 6 dígitos']
     return None
 
 
