@@ -6,9 +6,9 @@ from .utils import get_type
 from .support import type_validation, adapt_form_errors
 from .checks import check_null
 # others
-from string import digits
 from decimal import Decimal
 from datetime import datetime
+
 
 
 def convert_validation(obj, new_type: str):
@@ -144,16 +144,3 @@ def change_password(user, current_password, new_password, new_password_confirm):
     
 
 
-
-class Session:
-    def __init__(self, request, name, initial_value):
-        self.name = name
-        self.request = request
-        self.edit(initial_value)
-        self.value = request[name]
-    
-    def edit(self, value):
-        self.request[self.name] = value
-        
-    def delete(self):
-        self.request[self.name] = None
