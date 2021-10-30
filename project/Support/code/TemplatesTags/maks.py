@@ -20,6 +20,8 @@ def _br_money(value):
     return ''.join(representation)[::-1] + f',{str(value)[-2:]}'
 
 
+
+
 @register.filter(name='cpf')
 def _cpf(value):
     list_cpf = list(value)
@@ -27,6 +29,8 @@ def _cpf(value):
     list_cpf.insert(7, '.')
     list_cpf.insert(11, '-')
     return "".join(list_cpf)
+
+
 
 
 @register.filter(name='card')
@@ -38,6 +42,8 @@ def _card(value):
     return "".join(list_card)    
 
 
+
+
 @register.filter(name='phone_br')
 def _phone_br(value):
     list_phone = list(value)
@@ -45,6 +51,8 @@ def _phone_br(value):
     list_phone.insert(3, ') ')
     list_phone.insert(9, '-')
     return "".join(list_phone) 
+
+
 
 
 @register.filter(name='cnpj')
