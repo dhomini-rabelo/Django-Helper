@@ -1,5 +1,8 @@
-from datetime import datetime, timedelta
-
+# django
+# this module
+# others
+from datetime import datetime
+from decimal import Decimal
 
 def simplification(obj_name: str):
     simplification = {'decimal.Decimal': 'decimal', 'datetime.date': 'date'}
@@ -59,4 +62,4 @@ def get_age(date: str):
     today_date = datetime.now()
     difference = today_date - input_date
     return int(difference.days/365.25)
-    
+

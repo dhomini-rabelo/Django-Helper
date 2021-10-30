@@ -1,109 +1,65 @@
 # django
-from django.core.validators import validate_slug, validate_unicode_slug 
 # this module
-from .validators import validate_for_email, validate_unique, validate_caracters
-from .utils import get_type
-from .support import type_validation, adapt_form_errors
-from .checks import check_null
+from validators import validate_for_email, validate_unique, validate_caracters
+from utils import get_type
+from support import type_validation, adapt_form_errors, convert_functions, other_errors_functions, adapt_list_of_post_form
+from checks import check_null
 # others
-from decimal import Decimal
+from decimal import InvalidOperation
 from datetime import datetime
 
 
 
-def convert_validation(obj, new_type: str):
+def convert(obj, new_type: str):
+    convert_process = convert_functions[new_type]
+    
+    if obj is not None:
+        return convert_process(obj)
+    else:
+        return None
+
+
+
+def convert_validation(field, new_type: str):
     if new_type == 'pass': return 'valid'
-    initial_type = get_type(obj)
-    type_validation(initial_type, new_type)
-    if initial_type == 'str':
-        if new_type == 'str': 
-            return 'valid'
-        elif new_type == 'int':
-            try: 
-                return int(obj)
-            except:
-                return 'convert_error'
-        elif new_type == 'float':
-            try: 
-                return float(obj)
-            except:
-                return 'convert_error'
-        elif new_type == 'decimal':
-            try: 
-                return Decimal(obj)
-            except:
-                return 'convert_error'
-        elif new_type == 'bool':
-            try:
-                return bool(obj)
-            except:
-                return 'convert_error'
-        elif new_type == 'date':
-            try:
-                date_check = datetime.strptime(obj, '%d/%m/%Y').date()
-                return obj
-            except:
-                return 'convert_error'
-        elif new_type == 'slug':
-            try:
-                validate_slug(obj)
-                validate_unicode_slug(obj)
-                return obj
-            except:
-                return 'convert_error'        
-    elif initial_type is None:
-        return 'initial_type_error'
+    try:
+        validation = convert(field, new_type)
+        return validation if validation is not None else 'convert_error'
+    except (ValueError, InvalidOperation):
+        return 'convert_error'
+        
       
         
-def get_post_form_errors(fields: list, Model=None):
+def get_post_form_errors(fields: list):
     """
-    Model list fields
-    [[fields(example: name), variable_for_convert_validation, name_field_for_error_messages,
-    specific_list_validation_with_tuples(example)[('unique', 'argument: slug')]
-    ],]
-    variable_for_convert_validation = 'pass' if field don't return str field
+    Form list fields
+    [
+    [value, type, field_name, [(other_validation, *args),]]
+    ],
+    ]
     """
-    invalid_fields = []
-    none_fields = []
-    other_errors = []
-    possible_types = ['str', 'int', 'decimal', 'bool', 'date',
-                      'email', 'float', 'NoneType', 'slug']
-    types_more_validations = ['unique', 'email', 'caracters', 'min-max-equal(length)']
+    # errors
+    invalid_fields, none_fields, other_errors = [], [], []
+    types_for_others_validations = [
+        'unique', 'exists', 'only_str', 'only_numeric', 'email', 'caracters', 'min-max-equal(length)',
+        'username', 'slug',
+    ]
     
-    for field, convert_var, name, more_validations in fields:
-        validation = convert_validation(field, convert_var)
+    for field, convert_var, name, more_validations in adapt_list_of_post_form(fields):
+        formated_field = convert_validation(field, convert_var)
 
-        if str(validation) == 'initial_type_error' or check_null(field):
+        if check_null(field):
             none_fields.append(name)  
-        elif str(validation) == 'convert_error':
+        elif str(formated_field) == 'convert_error':
             invalid_fields.append(name)
         else:
             for other_validation in more_validations:
-                if other_validation[0] == 'unique':
-                    if not validate_unique(Model, other_validation[1], field):
-                        other_errors.append(['unique', name])
-                if other_validation[0] == 'exists':
-                    field_ = int(field) if convert_var == 'int' else field
-                    if validate_unique(Model, other_validation[1], field_):
-                        other_errors.append(['exists', name])
-                if other_validation[0] == 'email':
-                    if not validate_for_email(field):
-                        other_errors.append(['email', name])
-                if other_validation[0] == 'caracters':
-                    if not validate_caracters(field, other_validation[1], other_validation[2]):
-                        other_errors.append(['caracters', name])
-                if other_validation[0] == 'min_length':
-                    if len(str(field)) < other_validation[1]:
-                        other_errors.append(['min_length', name, other_validation[1]])
-                elif other_validation[0] == 'equal_length':
-                    if len(str(field)) != other_validation[1]:
-                        other_errors.append(['equal_length', name, other_validation[1]])
-                if other_validation[0] == 'max_length':
-                    if len(str(field)) > other_validation[1]:
-                        other_errors.append(['max_length', name, other_validation[1]])
-                if other_validation[0] == 'only_str':
-                    if not validate_caracters(field, True, True, False, False):
-                        other_errors.append(['caracters', name])
+                args = [*other_validation[1:]]
+                args.insert(0, formated_field)
+                validation = other_errors_functions[other_validation[0]]
+                if not validation(*args):
+                    other_errors.append([other_validation[0], name, args])
+                
 
     
     form_errors = {'invalid_fields': invalid_fields, 'none_fields': none_fields,
@@ -111,15 +67,16 @@ def get_post_form_errors(fields: list, Model=None):
     
     form_errors = adapt_form_errors(form_errors)
     return form_errors if form_errors != {} else None
-    
+
+
     
 def get_password_error(password, confirm_password):
     if not password == confirm_password:
-        return [0, 'As senhas são diferentes']
+        return (0, 'As senhas são diferentes')
     elif not validate_caracters(password, False):
-        return [1, 'A senha possui caracteres inválidos, é permitido apenas números, letras sem acento e os símbolos "@.+-_"']
+        return (1, 'A senha possui caracteres inválidos, é permitido apenas números, letras sem acento e os símbolos "@.+-_"')
     elif len(password) < 6:
-        return [2, 'A senha é deve ter no mínimo 6 dígitos']
+        return (2, 'A senha é deve ter no mínimo 6 dígitos')
     return None
 
 

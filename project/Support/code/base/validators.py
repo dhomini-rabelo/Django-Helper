@@ -1,5 +1,7 @@
 # django
 from django.core.validators import validate_email
+from django.core.validators import validate_slug, validate_unicode_slug 
+from django.core.exceptions import ValidationError
 # others
 from string import ascii_letters, digits
 
@@ -7,7 +9,7 @@ from string import ascii_letters, digits
 def validate_caracters(text: str, with_accents=True, spaces=True, use_symbols=True, use_numbers=True):
     accents = 'áàéèíìóòúùâêîôûãõ' if with_accents else ''
     space = ' ' if spaces else ''
-    symbols = "@.+-_" if use_symbols else ''
+    symbols = "_" if use_symbols else ''
     numbers = digits if use_numbers else ''
     alloweds = symbols + numbers + ascii_letters + accents + space
     for letter in text.lower():
@@ -20,16 +22,35 @@ def validate_for_email(email: str):
     try:
         validate_email(email)
         return True
-    except:
+    except ValidationError:
         return False
     
     
-def validate_unique(Model, field: str, new_field):
-    fields = list(item[0] for item in Model.objects.values_list(field))
-    if new_field in fields:
+def validate_unique(Model, field_name: str, field):
+    current_fields = Model.objects.values_list(field_name, flat=True)
+    
+    if field in current_fields:
         return False
     return True
+
+
+
+def validate_for_slug(slug:str):
+    if '/' in slug:
+        return False
+    try:
+        validate_slug(slug)
+        validate_unicode_slug(slug)
+        return True
+    except ValidationError:
+        return False  
     
 
+
+def validate_only_numeric(text: str):
+    for letter in text:
+        if letter not in list('123456789'):
+            return False
+    return True
 
     
