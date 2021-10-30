@@ -38,7 +38,7 @@ export function toTitleCase(str){
             newStr += str.toLowerCase();
         }
     }
-
+    return newStr;
 }
 
 export function strMask(idInput, useTitleCase){

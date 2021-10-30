@@ -73,34 +73,24 @@ function securityPasswordCardMask(idInput) {
 }
 
 
-export function addMask(idInput, mask){
-    if (mask==='cpf'){
-        cpfMask(idInput)
-    }
-    else if (mask==='cnpj'){
-        cnpjMask(idInput)
-    }
-    else if (mask==='phoneBR'){
-        phoneBRMask(idInput)
-    }
-    else if (mask==='moneyBR'){
-        moneyBRMask(idInput)
-    }
-    else if (mask==='dateBR'){
-        dateBRMask(idInput)
-    }
-    else if (mask==='card'){
-        cardMask(idInput)
-    }
-    else if (mask==='numericOnly'){
-        numericOnlyMask(idInput)
-    }
-    else if (mask==='numericPositiveOnly'){
-        numericPositiveOnlyMask(idInput)
-    }
-    else if (mask==='securityPasswordCard'){
-        securityPasswordCardMask(idInput)
-    }
 
+
+const masksFunctions = {
+    'cpf': (idInput) => cpfMask(idInput), 'cnpj': (idInput) => cnpjMask(idInput),
+    'phoneBR': (idInput) => phoneBRMask(idInput), 'moneyBR': (idInput) => moneyBRMask(idInput),
+    'dateBr': (idInput) => dateBrMask(idInput), 'numericPositiveOnly': (idInput) => numericPositiveOnlyMask(idInput),
+    'numericOnly': (idInput) => numericOnlyMask(idInput), 'card': (idInput) => cardMask(idInput), 
+    'securityPasswordCard': (idInput) => securityPasswordCardMask(idInput),
+}
+
+
+
+
+
+
+
+export function addMask(idInput, mask){
+    let usedMask = masksFunctions[mask]
+    usedMask(idInput)
 }
 
