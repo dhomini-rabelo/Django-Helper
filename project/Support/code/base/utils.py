@@ -1,8 +1,11 @@
 # django
 # this module
+from functions_dict import filters_functions
 # others
 from datetime import datetime
 from decimal import Decimal
+
+
 
 def simplification(obj_name: str):
     simplification = {'decimal.Decimal': 'decimal', 'datetime.date': 'date'}
@@ -21,44 +24,27 @@ def get_type(obj):
     return simplification(class_name)
 
 
-def filters(string, new_type: str = 'strip'):
+def filters(field, new_type: str = 'strip'):
     alloweds_new_types = ['strip', 'name', 'only_numbers', 'money_br']
-    if not isinstance(string, str):
-        return string
-    if new_type == 'strip':
-        return string.strip()
-    elif new_type == 'name':
-        string = string.strip().title()
-        repeated_spaces = []
-        spaces = 0
-        for letter in string:
-            if spaces == 0 and letter == " ":
-                spaces += 1
-            elif letter != " ":
-                spaces = 0
-            else:
-                spaces += 1
-                repeated_spaces.append(spaces)
-        organized_repeated_spaces =  sorted(list(set(repeated_spaces)), reverse=True)
-        for number in organized_repeated_spaces:
-            string = string.replace(" "*number, " ")
-        return string
-    elif new_type == 'only_numbers':
-        new_string = ''
-        for letter in string:
-            if letter in list('0123456789'):
-                new_string += letter
-        return new_string
-    elif new_type == 'money_br':
-        new_string = ''
-        for letter in string:
-            if letter in list('0123456789,'):
-                new_string += letter
-        return new_string.replace(',', '.')        
-            
+    if isinstance(field, str):
+        return filters_functions[new_type](field)
+    elif isinstance(field, list):
+        return list(map(lambda obj: filters_functions[new_type](obj), field))
+    else:
+        return field
+
+
+def gets(request, *args, api=True):
+    rp = request.POST if not api else request.body
+    fields = list()
+    for field in args:
+        fields.append(filters(rp.get(field)))
+    return fields
+    
+
 
 def get_age(date: str):
-    input_date = datetime.strptime(date, '%Y-%m-%d') 
+    input_date = datetime.strptime(date, '%d/%m/%Y') 
     today_date = datetime.now()
     difference = today_date - input_date
     return int(difference.days/365.25)

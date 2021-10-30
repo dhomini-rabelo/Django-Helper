@@ -3,8 +3,8 @@ from django.contrib import auth
 # others
 
     
-
-
+    
+    
 def check_null(obj):
     try:
         if obj is None:
@@ -21,18 +21,7 @@ def check_null(obj):
 
 def checks_null(input_list: list):
     for item in input_list:
-        try:
-            if item is None:
-                return True
-            elif isinstance(item, str) and item.strip() == '':
-                return True
-            elif len(item) == 0:
-                return True
-            elif len(list(item)) == 0:
-                return True
-        except TypeError:
-            pass
-    return False
+        return check_null(item)
 
 
 

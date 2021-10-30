@@ -2,7 +2,8 @@
 # this module
 from validators import validate_for_email, validate_unique, validate_caracters
 from utils import get_type
-from support import type_validation, adapt_form_errors, convert_functions, other_errors_functions, adapt_list_of_post_form
+from support import type_validation, adapt_form_errors, adapt_list_of_post_form
+from functions_dict import convert_functions, other_errors_functions
 from checks import check_null
 # others
 from decimal import InvalidOperation
@@ -34,8 +35,7 @@ def get_post_form_errors(fields: list):
     """
     Form list fields
     [
-    [value, type, field_name, [(other_validation, *args),]]
-    ],
+    [value, type, field_name, [(other_validation, *args),]],
     ]
     """
     # errors
@@ -60,8 +60,6 @@ def get_post_form_errors(fields: list):
                 if not validation(*args):
                     other_errors.append([other_validation[0], name, args])
                 
-
-    
     form_errors = {'invalid_fields': invalid_fields, 'none_fields': none_fields,
                     'other_errors': other_errors}
     
@@ -70,34 +68,22 @@ def get_post_form_errors(fields: list):
 
 
     
-def get_password_error(password, confirm_password):
+def get_password_error(password: str, confirm_password: str):
     if not password == confirm_password:
         return (0, 'As senhas são diferentes')
-    elif not validate_caracters(password, False):
-        return (1, 'A senha possui caracteres inválidos, é permitido apenas números, letras sem acento e os símbolos "@.+-_"')
-    elif len(password) < 6:
-        return (2, 'A senha é deve ter no mínimo 6 dígitos')
     return None
 
 
-def change_password(user, current_password, new_password, new_password_confirm):
+def change_password(user, current_password: str, new_password: str, new_password_confirm: str):
     errors_list = list()
-    if current_password is None:
-        errors_list.append('O campo senha atual não foi informado')
-    if new_password is None:
-        errors_list.append('O campo de nova senha não foi informado')
-    if new_password_confirm is None:
-        errors_list.append('O campo de confirmação de nova senha não foi informado')
-    if errors_list == []:
-        if not user.check_password(current_password):
-            errors_list.append('A senha atual não está correta')
-        else:
-            error_password = get_password_error(new_password, new_password_confirm)
-            if error_password is None:
-                user.set_password(new_password)
-                user.save()
-            errors_list.append(error_password)
+    if not user.check_password(current_password):
+        errors_list.append('Senha incorreta')
+    else:
+        error_password = get_password_error(new_password, new_password_confirm)
+        if error_password is None:
+            user.set_password(new_password)
+            user.save()
+        errors_list.append(error_password[1])
     return errors_list if errors_list != [] else None
     
-
 

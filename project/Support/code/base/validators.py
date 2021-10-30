@@ -3,15 +3,18 @@ from django.core.validators import validate_email
 from django.core.validators import validate_slug, validate_unicode_slug 
 from django.core.exceptions import ValidationError
 # others
-from string import ascii_letters, digits
+from string import ascii_letters, digits, punctuation
 
 
-def validate_caracters(text: str, with_accents=True, spaces=True, use_symbols=True, use_numbers=True):
+
+
+def validate_caracters(text: str, with_accents=True, spaces=True, use_symbols=True, use_numbers=True, use_underline=True):
     accents = 'áàéèíìóòúùâêîôûãõ' if with_accents else ''
     space = ' ' if spaces else ''
-    symbols = "_" if use_symbols else ''
+    symbols = punctuation if use_symbols else ''
+    underline = "_" if use_underline else ''
     numbers = digits if use_numbers else ''
-    alloweds = symbols + numbers + ascii_letters + accents + space
+    alloweds = symbols + numbers + ascii_letters + accents + space + underline 
     for letter in text.lower():
        if letter not in alloweds:
            return False
@@ -47,8 +50,8 @@ def validate_for_slug(slug:str):
     
 
 
-def validate_only_numeric(text: str):
-    for letter in text:
+def validate_only_numeric(text):
+    for letter in str(text):
         if letter not in list('123456789'):
             return False
     return True
