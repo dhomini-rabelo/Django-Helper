@@ -1,10 +1,10 @@
-from .support import *
+from support import *
 import io
 
 
-class DjangoBase:
+class Base:
     
-    
+   
     @staticmethod
     def adapt_path(path: str):
         backslash = '\*'[0]

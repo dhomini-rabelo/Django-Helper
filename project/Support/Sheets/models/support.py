@@ -21,6 +21,10 @@ class PathIsAFolderError(Exception):
 
 class PathIsAFileError(Exception):
     pass
+
+class NotFoundError(Exception):
+    pass
+
     
     
 def assert_file_existence(path: str):
