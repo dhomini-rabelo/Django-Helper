@@ -17,7 +17,7 @@ function functionsForForm(){
 
 
     let useMasks = false
-
+    let useStrip = true
 
 
 
@@ -36,6 +36,27 @@ function functionsForForm(){
         // case mask for string --> strMask(idInput, False)
         // case moneyBR in modifications  --> forMoneyBRMask(idInput)
         // case dateBR in modifications  --> forDateBRMask(idInput)
+    }
+
+
+    
+
+    if (useStrip){
+        let textInputs = document.querySelectorAll('input[type="text"]')
+        let passwordInputs = document.querySelectorAll('input[type="password"]')
+
+
+        textInputs.forEach((input) => {
+            input.addEventListener('blur', strip)
+        })
+
+        passwordInputs.forEach((input) => {
+            input.addEventListener('blur', strip)
+        })
+
+        function strip(event) {
+            event.currentTarget.value = event.currentTarget.value.trim()
+        }
     }
 
 }
