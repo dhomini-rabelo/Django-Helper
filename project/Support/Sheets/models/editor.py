@@ -16,47 +16,64 @@ class Editor(Base):
         self.path = f'{self.base_path}/{self.archive_path}'
         assert_file_existence(self.path)
         self.reading = self.read(self.path)
+        self._adapt_list = lambda text_as_list: list(map(lambda line: f'{line}\n', text_as_list))
             
     def _get_line_position(self, code_line: str) -> int:
         for position, line in enumerate(self.reading):
             if line.startswith(code_line):
-                return position
+                return position + 1
         raise NotFoundError('Line not found')
         
-    def replace_line(self, current: Mapping[str, int], new: str):
+        
+    def add_in_start(self, text: Mapping[str, list]):
+        if isinstance(text, str):
+            text = [text]
+        work_text = self._adapt_list(text) + self.reading[:]
+        self._update(work_text)
+
+    def add_in_end(self, text: Mapping[str, list]):
+        if isinstance(text, str):
+            text = [text]
+        work_text = self.reading[:] + self._adapt_list(text)
+        self._update(work_text)
+        
+        
+    def replace_line(self, current: Mapping[str, int], new: Mapping[str, list]):
         if isinstance(current, str):
             line_number = self._get_line_position(current)
             self.replace_line(line_number, new)
         elif isinstance(current, int):
-            self.reading[current] = f'{new}\n'
+            current -= 1
+            if isinstance(new, str):
+                self.reading[current] = f'{new}\n'
+            elif isinstance(new, list):
+                self.reading = self.reading[:current] + self._adapt_list(new) + self.reading[current+1:]
             self._update(self.reading)
         
     def add_in_line(self, current: Mapping[str, int], new: str):
-        if isinstance(current, str):
-            line_number = self._get_line_position(current)
-            current_line = self.reading[line_number][:-1]
-            self.replace_line(line_number, f'{current_line}{new}\n')
-        elif isinstance(current, int):
-            current_line = self.reading[current][:-1]
-            self.replace_line(current, f'{current_line}{new}\n')
-        
-    def insert_code(self, line_code: Mapping[str, int], new: str):
-        if isinstance(line_code, str):
-            line_number = self._get_line_position(line_code)
+        line_number = (self._get_line_position(current) if isinstance(current, str) else current) - 1
+        current_line = self.reading[line_number][:-1]
+        self.replace_line(line_number, f'{current_line}{new}')
+
+    def insert_code(self, line_code: Mapping[str, int], new: Mapping[str, list]):
+        line_number = (self._get_line_position(line_code) if isinstance(line_code, str) else line_code) - 1
+        if isinstance(new, str):
             self.reading.insert(line_number + 1, f'{new}\n')
-            self._update(self.reading)
-        elif isinstance(line_code, int):
-            self.reading.insert(line_code + 1, f'{new}\n')
-            self._update(self.reading)
+        elif isinstance(new, list):
+            self.reading = self.reading[:line_number+1] + self._adapt_list(new) + self.reading[line_number+1:]         
+        self._update(self.reading)
 
     def delete_line(self, line_code: Mapping[str, int]):
-        if isinstance(line_code, str):
-            line_number = self._get_line_position(line_code)
-            del self.reading[line_number]
-            self._update(self.reading)
-        elif isinstance(line_code, int):
-            del self.reading[line_code]
-            self._update(self.reading)
+        line_number = (self._get_line_position(line_code) if isinstance(line_code, str) else line_code) - 1
+        del self.reading[line_number]
+        self._update(self.reading)
+        
+    def delete_many_lines(self, start: int, end: int):
+        counter = 0
+        for line_number in range(start, end+1):
+            counter += 1
+            del self.reading[line_number - counter]
+        self._update(self.reading)
                     
     def _update(self, reading: list):
         sleep(0.5)
