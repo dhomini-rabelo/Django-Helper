@@ -1,11 +1,5 @@
-# django
-from django.core.exceptions import ValidationError
 # this module
 from functions_dict import messages_form_errors
-# others
-from datetime import datetime
-from decimal import Decimal
-
 
 
 def adapt_form_errors(form_errors: dict):

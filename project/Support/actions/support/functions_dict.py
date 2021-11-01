@@ -1,5 +1,6 @@
 from validators import validate_unique, validate_for_email, validate_caracters, validate_for_slug, validate_only_numeric
-
+from datetime import datetime
+from decimal import Decimal
 
 
 # for support
@@ -29,6 +30,7 @@ convert_functions = {
 other_errors_functions = {
     # model
     'unique': lambda field, Model, field_name: validate_unique(Model, field_name, field),
+    'unique_m2m_or_custom': lambda field, Model, field_name: validate_unique(Model, field_name, field, True),
     'exists': lambda field, Model, field_name: not validate_unique(Model, field_name, field),
     # format
     'only_str': lambda field: validate_caracters(field, True, True, False, False, False),

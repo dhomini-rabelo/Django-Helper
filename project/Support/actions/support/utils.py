@@ -1,10 +1,8 @@
-# django
 # this module
 from functions_dict import filters_functions
 # others
 from datetime import datetime
-from decimal import Decimal
-
+from collections.abc import Mapping
 
 
 def simplification(obj_name: str):
@@ -24,7 +22,7 @@ def get_type(obj):
     return simplification(class_name)
 
 
-def filters(field, new_type: str = 'strip'):
+def filters(field: Mapping[str, list], new_type: str = 'strip'):
     alloweds_new_types = ['strip', 'name', 'only_numbers', 'money_br']
     if isinstance(field, str):
         return filters_functions[new_type](field)
@@ -34,11 +32,10 @@ def filters(field, new_type: str = 'strip'):
         return field
 
 
-def gets(request, *args, api=True):
-    rp = request.POST if not api else request.body
+def gets(post_obj: dict, *args):
     fields = list()
     for field in args:
-        fields.append(filters(rp.get(field)))
+        fields.append(filters(post_obj.get(field)))
     return fields
     
 

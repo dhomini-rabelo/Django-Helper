@@ -5,7 +5,7 @@ register = template.Library()
 
 
 @register.filter(name='br_money')
-def _br_money(value):
+def _br_money(value: str):
     integer_value = str(value)[:-3]
     size = len(integer_value)
     representation = []
@@ -23,7 +23,7 @@ def _br_money(value):
 
 
 @register.filter(name='cpf')
-def _cpf(value):
+def _cpf(value: str):
     list_cpf = list(value)
     list_cpf.insert(3, '.')
     list_cpf.insert(7, '.')
@@ -34,7 +34,7 @@ def _cpf(value):
 
 
 @register.filter(name='card')
-def _card(value):
+def _card(value: str):
     list_card = list(value)
     list_card.insert(4, ' ')
     list_card.insert(9, ' ')
@@ -45,7 +45,7 @@ def _card(value):
 
 
 @register.filter(name='phone_br')
-def _phone_br(value):
+def _phone_br(value: str):
     list_phone = list(value)
     list_phone.insert(0, '(')
     list_phone.insert(3, ') ')
@@ -56,7 +56,7 @@ def _phone_br(value):
 
 
 @register.filter(name='cnpj')
-def _cnpj(value):
+def _cnpj(value: str):
     list_cnpj = list(value)
     list_cnpj.insert(2, '.')
     list_cnpj.insert(6, '.')

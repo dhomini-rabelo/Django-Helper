@@ -52,12 +52,12 @@ class Editor(Base):
             self._update(self.reading)
         
     def add_in_line(self, current: Mapping[str, int], new: str):
-        line_number = (self._get_line_position(current) if isinstance(current, str) else current) - 1
+        line_number = self._get_line_position(current) if isinstance(current, str) else (current - 1)
         current_line = self.reading[line_number][:-1]
         self.replace_line(line_number, f'{current_line}{new}')
 
     def insert_code(self, line_code: Mapping[str, int], new: Mapping[str, list]):
-        line_number = (self._get_line_position(line_code) if isinstance(line_code, str) else line_code) - 1
+        line_number = self._get_line_position(line_code) if isinstance(line_code, str) else (line_code - 1)
         if isinstance(new, str):
             self.reading.insert(line_number + 1, f'{new}\n')
         elif isinstance(new, list):
@@ -65,7 +65,7 @@ class Editor(Base):
         self._update(self.reading)
 
     def delete_line(self, line_code: Mapping[str, int]):
-        line_number = (self._get_line_position(line_code) if isinstance(line_code, str) else line_code) - 1
+        line_number = self._get_line_position(line_code) if isinstance(line_code, str) else (line_code - 1)
         del self.reading[line_number]
         self._update(self.reading)
         
