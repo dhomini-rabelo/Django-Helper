@@ -34,8 +34,9 @@ class Editor(Base):
     def add_in_end(self, text: Mapping[str, list]):
         if isinstance(text, str):
             text = [text]
-        work_text = self.reading[:] + self._adapt_list(text)
-        self._update(work_text)
+        with io.open(self.path, 'a', encoding='utf-8') as script:
+            for line in self._adapt_list(text):
+                script.write(line)
         
         
     def replace_line(self, current: Mapping[str, int], new: Mapping[str, list]):
@@ -82,4 +83,5 @@ class Editor(Base):
             for line in reading[start:]:
                 code_file.write(line)
         self.reading = reading
+
 

@@ -3,27 +3,15 @@ from for_project import project_name, bp
 from models.app import DjangoApp
 from time import sleep
 
+
 app_name = 'pessoa'
 app = DjangoApp(bp, app_name)
 
-#* CRIAR TESTES
-# app.create_py_folder(f'Support/tests/{app_name}')
-# tests = ['models', 'views', 'forms']
-# for test in tests:
-#     app.create_test_archive(f'{app_name}/{test}')
 
-#* CRIAR ABSTRACT USER
-# app.create_abstract_user_model()
-# app.register_abstract_user(project_name)
-
-#* CRIAR FORMS
+#* MAIS USADOS
 # app.add_form('Pessoa')
-
-#* REGISTRAR ADMIN
 # app.register_admin('Gente')
-
-#* REGISTRAR VIEW
-# app.register_view('form', logged=False)
+# app.create_view('form', logged=False)
 
 #* APÓS CRIAÇÃO
 # sleep(1)
@@ -36,3 +24,15 @@ app = DjangoApp(bp, app_name)
 # app.import_for_model()
 # app.register_app(project_name)
 # app.config_app()
+
+
+#* CRIAR ABSTRACT USER
+# app.create_abstract_user_model()
+# app.register_abstract_user(project_name)
+
+
+#* CRIAR TESTES
+# app.create_py_folder(f'Support/code/tests/{app_name}')
+# tests = ['models', 'views', 'forms']
+# for test in tests:
+#     app.create_test_archive(f'{app_name}/{test}')

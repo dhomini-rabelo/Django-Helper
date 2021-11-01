@@ -1,5 +1,5 @@
-import { addMask } from './modules/masks.js'
-import { forMoneyBRMask, strMask, forDateBRMask } from './modules/functions.js'
+import { addMask } from './form/masks.js'
+import { forMoneyBRMask, strMask, forDateBRMask } from './form/functions.js'
 
 
 
