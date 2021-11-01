@@ -4,6 +4,8 @@ from functions_dict import convert_functions, other_errors_functions
 from checks import check_null
 # others
 from decimal import InvalidOperation
+from typing import Sequence, Union, Any
+
 
 
 
@@ -17,7 +19,7 @@ def convert(obj: str, new_type: str):
 
 
 
-def convert_validation(field, new_type: str):
+def convert_validation(field: Any, new_type: str):
     if new_type == 'pass': return 'valid'
     try:
         validation = convert(field, new_type)
@@ -25,9 +27,13 @@ def convert_validation(field, new_type: str):
     except (ValueError, InvalidOperation):
         return 'convert_error'
         
-      
         
-def get_post_form_errors(fields: list) -> dict:
+
+field_sequence_for_validation = Sequence[Any, str, str, list[tuple[str, Any]]]
+form_type = list[list[field_sequence_for_validation]]      
+        
+        
+def get_post_form_errors(form: form_type) -> dict[str, str]:
     """
     Form list fields
     [
@@ -41,7 +47,7 @@ def get_post_form_errors(fields: list) -> dict:
         'min-max-equal(length)', 'username', 'slug',
     ]
     
-    for field, convert_var, name, more_validations in adapt_list_of_post_form(fields):
+    for field, convert_var, name, more_validations in adapt_list_of_post_form(form):
         formated_field = convert_validation(field, convert_var)
 
         if check_null(field):

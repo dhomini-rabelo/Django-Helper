@@ -3,7 +3,7 @@ from django.core.validators import validate_slug, validate_unicode_slug, validat
 from django.core.exceptions import ValidationError
 # others
 from string import ascii_letters, digits, punctuation
-
+from typing import Any
 
 
 
@@ -28,7 +28,7 @@ def validate_for_email(email: str):
         return False
     
     
-def validate_unique(Model, field_name: str, field, use_queryset=False):
+def validate_unique(Model, field_name: str, field: Any, use_queryset=False):
     model = Model.objects if not use_queryset else Model
     current_fields = model.values_list(field_name, flat=True)
     

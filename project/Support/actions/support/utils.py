@@ -3,7 +3,7 @@ from functions_dict import filters_functions
 # others
 from datetime import datetime
 from collections.abc import Mapping
-
+from typing import Any
 
 def simplification(obj_name: str):
     simplification = {'decimal.Decimal': 'decimal', 'datetime.date': 'date'}
@@ -14,7 +14,7 @@ def simplification(obj_name: str):
         return simplified_name
 
 
-def get_type(obj):
+def get_type(obj: Any):
     str_type = str(type(obj))
     initial_position = str_type.find("'")
     end_position = str_type[initial_position+1:].find("'") + len(str_type[: initial_position+1])

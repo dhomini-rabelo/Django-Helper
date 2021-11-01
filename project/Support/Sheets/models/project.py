@@ -25,8 +25,8 @@ class DjangoProject(Base):
     def insert_important_comments(self):
         editor = Editor(self.path, 'settings.py')
         inserts = [("DEFAULT_AUTO_FIELD", "\n\n# My configurations"),
-                   ("INSTALLED_APPS", '    # Django apps'),
-                   ("    'django.contrib.staticfiles'", '    # My apps\n    # Others apps'),
+                   ("INSTALLED_APPS", f'{sp(4)}# Django apps'),
+                   ("    'django.contrib.staticfiles'", f'{sp(4)}# My apps\n{sp(4)}# Others apps'),
         ]
         for current, new in inserts:
             editor.insert_code(current, new)
@@ -34,7 +34,7 @@ class DjangoProject(Base):
         
     def _settings_replaces(self):
         replaces = [
-            ("        'DIRS': [],", "        'DIRS': [Path(BASE_DIR, 'Support/Layout/Templates')],"),
+            (f"{sp(8)}'DIRS': [],", f"{sp(8)}'DIRS': [Path(BASE_DIR, 'Support/Layout/Templates')],"),
             ("LANGUAGE_CODE = 'en-us'", "LANGUAGE_CODE = 'pt-br'"),
             ("TIME_ZONE = 'UTC'", "TIME_ZONE = 'America/Sao_Paulo'"),
             (f"{sp(12)}],", f"{sp(12)}],\n{sp(12)}'libraries':"+" {\n"+ f"{sp(12)}'filters': 'Support.code.TemplatesTags.basic',\n{sp(12)}"+"}\n"),

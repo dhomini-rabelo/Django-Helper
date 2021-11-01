@@ -2,7 +2,7 @@
 from functions_dict import messages_form_errors
 
 
-def adapt_form_errors(form_errors: dict):
+def adapt_form_errors(form_errors: dict[str, list]) -> dict[str, str]:
     response = dict()
     for name in form_errors['invalid_fields']:
         response[name] = 'Este campo é inválido'

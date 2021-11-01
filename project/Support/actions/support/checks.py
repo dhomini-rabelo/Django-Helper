@@ -1,9 +1,10 @@
 # django
 from django.contrib import auth
-
+# others
+from typing import Any
 
     
-def check_null(obj):
+def check_null(obj: Any):
     # check if object is null or none
     try:
         if obj is None:
