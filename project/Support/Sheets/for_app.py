@@ -5,7 +5,7 @@ from time import sleep
 
 
 app_name = 'pessoa'
-app = DjangoApp(bp, app_name)
+app = DjangoApp(bp, app_name, project_name)
 
 
 #* MAIS USADOS
@@ -22,7 +22,7 @@ app = DjangoApp(bp, app_name)
 # sleep(1)
 # app.create_forms_archive()
 # app.import_for_model()
-# app.register_app(project_name)
+# app.register_app()
 # app.config_app()
 
 

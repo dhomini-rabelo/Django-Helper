@@ -3,9 +3,8 @@ from django.contrib import auth
 
 
     
-    
-    
 def check_null(obj):
+    # check if object is null or none
     try:
         if obj is None:
             return True
@@ -19,13 +18,17 @@ def check_null(obj):
 
 
 
-def checks_null(input_list: list):
-    for item in input_list:
-        return check_null(item)
+def checks_null(object_list: list):
+    # check if object list contains a null object  or none object
+    for obj in object_list:
+        if check_null(obj):
+            return True
+    return False
 
 
 
 def check_is_logged(request):
+    # checks if user is logged in from a request
     user = auth.get_user(request)
     if user.is_authenticated():
         return True

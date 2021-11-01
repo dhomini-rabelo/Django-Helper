@@ -22,6 +22,7 @@ def adapt_slug(slug: str):
     return adapted_slug
 
 
+
 def set_slug(slug: str):
     invalid_letters = list()
     slug = adapt_slug(slug)
