@@ -36,6 +36,7 @@ other_errors_functions = {
     'only_str': lambda field: validate_caracters(field, True, True, False, False, False),
     'username': lambda field: validate_caracters(field, False, False, False),
     'only_numeric': lambda field: validate_only_numeric(field), 
+    'decimal': lambda field: (validate_only_numeric(field[:-3]) and field[-3] == '.' and validate_only_numeric(field[-2:])),
     'equal_length': lambda field, length: len(str(field)) == length,
     'min_length': lambda field, length: len(str(field)) >= length,
     'max_length': lambda field, length: len(str(field)) <= length,
@@ -43,8 +44,6 @@ other_errors_functions = {
     'email': lambda field: validate_for_email(field),
     'slug': lambda field: validate_for_slug(field),
 }
-
-
 
 
 # for utils

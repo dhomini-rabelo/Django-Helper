@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 # others
 from string import ascii_letters, digits, punctuation
 from typing import Any
+from collections.abc import Mapping
 
 
 
@@ -50,7 +51,7 @@ def validate_for_slug(slug:str):
     
 
 
-def validate_only_numeric(text: str):
+def validate_only_numeric(text: Mapping[str, int]):
     for letter in str(text):
         if letter not in list('123456789'):
             return False
