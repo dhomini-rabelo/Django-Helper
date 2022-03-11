@@ -14,7 +14,7 @@ class Eraser(Base):
         reading = self.read(self.path)
         dels = []
         for line in reading:
-            if len(line) > 0 and line.strip()[0] == '#':
+           if len(line.strip()) > 0 and line.strip()[0] == '#':
                 dels.append(line)
         for disponsable_line in dels:
             reading.remove(disponsable_line)
@@ -22,7 +22,7 @@ class Eraser(Base):
     
     def initial_lines(self):
         reading = self.read(self.path)
-        if reading[0][:3] == '"""':
+        if len(reading) > 0 and reading[0][:3] == '"""':
             for index_, line in enumerate(reading[1:]):
                 if '"""' in line:
                     end_comment = index_
@@ -32,6 +32,7 @@ class Eraser(Base):
                     
     
     def construct(self, new_reading: list):
+       if len(new_reading) in [0, 1]: return
         with io.open(self.path, mode='w', encoding='utf-8') as code_file:
             start = 1 if new_reading[0] == '\n' else 0
             for line in new_reading[start:]:

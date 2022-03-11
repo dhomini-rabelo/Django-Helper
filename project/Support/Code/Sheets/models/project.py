@@ -34,7 +34,7 @@ class DjangoProject(Base):
         
     def _settings_replaces(self):
         replaces = [
-            (f"{sp(8)}'DIRS': [],", f"{sp(8)}'DIRS': [Path(BASE_DIR, 'Support/Layout/Templates')],"),
+            (f"{sp(8)}'DIRS': [],", f"{sp(8)}'DIRS': [Path(BASE_DIR, 'Support/FrontEnd/templates')],"),
             ("LANGUAGE_CODE = 'en-us'", "LANGUAGE_CODE = 'pt-br'"),
             ("TIME_ZONE = 'UTC'", "TIME_ZONE = 'America/Sao_Paulo'"),
             (f"{sp(12)}],", f"{sp(12)}],\n{sp(12)}'libraries':"+" {\n"+ f"{sp(12)}'filters': 'Support.code.TemplatesTags.basic',\n{sp(12)}"+"}\n"),
@@ -44,9 +44,9 @@ class DjangoProject(Base):
         
     def _settings_inserts(self):
         settings = [
-            "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Support/Layouts/Static')]", 
-            "STATIC_ROOT = Path('static')","MEDIA_ROOT = Path(BASE_DIR,'Support/Layout/Media')", 
-            "MEDIA_URL = '/media/'", "MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage", "SESSION_COOKIE_AGE = 60*60*24*7", "ACCOUNT_SESSION_REMEMBER = True", "ACCOUNT_UNIQUE_EMAIL = True"
+            "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'Support/FrontEnd/scripts'), Path(BASE_DIR, 'Support/FrontEnd/styles')]", 
+            "STATIC_ROOT = Path('static')","MEDIA_ROOT = Path(BASE_DIR,'Support/FrontEnd/media')", 
+            "MEDIA_URL = '/media/'", "MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'", "SESSION_COOKIE_AGE = 60*60*24*7", "ACCOUNT_SESSION_REMEMBER = True", "ACCOUNT_UNIQUE_EMAIL = True"
         ]
         inserts = [
             ("# My configurations", settings),

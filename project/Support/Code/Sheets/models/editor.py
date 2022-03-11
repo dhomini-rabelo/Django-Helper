@@ -59,7 +59,7 @@ class Editor(Base):
     def insert_code(self, line_code: Mapping[str, int], new: Mapping[str, list]):
         line_number = self._get_line_position(line_code) if isinstance(line_code, str) else (line_code - 1)
         if isinstance(new, str):
-            self.reading.insert(line_number + 1, f'{new}\n')
+            self.reading.insert(line_number, f'{new}\n')
         elif isinstance(new, list):
             self.reading = self.reading[:line_number+1] + self._adapt_list(new) + self.reading[line_number+1:]         
         self._update(self.reading)
